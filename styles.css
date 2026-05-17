@@ -1,0 +1,566 @@
+/* CSS Design System for Controle de Lançamentos */
+:root {
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --bg-dark: #0f172a;
+    --bg-card: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --glass: rgba(30, 41, 59, 0.7);
+    --border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Glassmorphism Gradient Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: -10%;
+    left: -10%;
+    width: 40%;
+    height: 40%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    z-index: -1;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    bottom: -10%;
+    right: -10%;
+    width: 40%;
+    height: 40%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+    z-index: -1;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #818cf8, #c084fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* Força 3 colunas iguais no desktop */
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.card-value {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.split-values {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.split-values span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.split-values i {
+    width: 14px;
+    height: 14px;
+}
+
+.progress-container {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    margin-top: 1rem;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(to right, var(--success), #facc15, var(--danger));
+    background-size: 1200px 100%;
+    /* Fix width to prevent stretching */
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.limit-card {
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Form Styles */
+.form-container {
+    background: var(--glass);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    border: 1px solid var(--border);
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.8s ease-out;
+    box-sizing: border-box;
+}
+
+.planner-section,
+section {
+    margin-bottom: 3rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.25rem;
+    align-items: flex-end;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+input,
+select {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    color: white;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary);
+}
+
+button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+button i {
+    width: 18px;
+    height: 18px;
+}
+
+button:hover {
+    background: var(--primary-hover);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.actions-header {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-main);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--primary);
+}
+
+/* Table Styles */
+.table-wrapper {
+    background: var(--glass);
+    border-radius: 1.5rem;
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+td {
+    padding: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+tfoot td {
+    background: rgba(99, 102, 241, 0.1);
+    font-weight: 700;
+    color: var(--primary);
+    border-top: 2px solid var(--primary);
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.type-service {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+}
+
+.type-sale {
+    background: rgba(139, 92, 246, 0.2);
+    color: #a78bfa;
+}
+
+.type-other {
+    background: rgba(148, 163, 184, 0.2);
+    color: #94a3b8;
+}
+
+/* Task List Styles */
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(15, 23, 42, 0.4);
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+}
+
+.task-item:hover {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: var(--primary);
+}
+
+.task-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    flex: 1;
+}
+
+.task-text {
+    font-size: 0.95rem;
+}
+
+.task-item.completed .task-text {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.task-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    transition: all 0.2s;
+}
+
+.task-item.completed .task-checkbox {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-delete-task {
+    background: transparent;
+    color: var(--danger);
+    padding: 0.5rem;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.task-item:hover .btn-delete-task {
+    opacity: 1;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 1.5rem;
+    width: 90%;
+    max-width: 500px;
+    padding: 2rem;
+    position: relative;
+    animation: zoomIn 0.3s ease-out;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.close-modal,
+.close-modal-rev {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.tip-box {
+    background: rgba(99, 102, 241, 0.1);
+    border-left: 3px solid var(--primary);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.tip-box h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary);
+}
+
+.tip-box ul {
+    margin-top: 0.5rem;
+    padding-left: 1.2rem;
+    font-size: 0.9rem;
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-card);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* Folder Sync Status Styles */
+.btn-sync-folder {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+}
+
+.sync-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: var(--text-muted);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-sync-folder.active {
+    border-color: var(--success);
+    color: var(--success);
+}
+
+.btn-sync-folder.active .sync-dot {
+    background-color: var(--success);
+    box-shadow: 0 0 8px var(--success);
+}
+
+.btn-sync-folder.pending {
+    border-color: #facc15;
+    color: #facc15;
+    animation: borderPulse 1.5s infinite alternate;
+}
+
+.btn-sync-folder.pending .sync-dot {
+    background-color: #facc15;
+    box-shadow: 0 0 8px #facc15;
+    animation: dotPulse 1.5s infinite alternate;
+}
+
+@keyframes dotPulse {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
+@keyframes borderPulse {
+    from { border-color: rgba(250, 204, 21, 0.3); }
+    to { border-color: rgba(250, 204, 21, 1); }
+}

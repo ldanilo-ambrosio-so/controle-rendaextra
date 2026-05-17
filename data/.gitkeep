@@ -1,0 +1,2 @@
+# Esse arquivo garante que a pasta /data/ seja sincronizada com o GitHub.
+# Os arquivos reais de lançamentos (JSON/CSV) serão ignorados de acordo com o .gitignore.

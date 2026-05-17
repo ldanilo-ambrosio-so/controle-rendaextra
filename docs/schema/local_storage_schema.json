@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LocalStorageSchema",
+  "description": "Schema definitions for Renda+ browser-based local storage (transactions, tasks, and configurations)",
+  "type": "object",
+  "properties": {
+    "transactions": {
+      "type": "array",
+      "description": "List of all financial entries (services, sales, and others)",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "description", "client", "value", "cost", "date"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier (timestamp of creation)"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["service", "sale", "other"],
+            "description": "Category of transaction"
+          },
+          "description": {
+            "type": "string",
+            "description": "Short summary of the transaction"
+          },
+          "client": {
+            "type": "string",
+            "description": "Name of the client or source of income"
+          },
+          "value": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Gross income value of the transaction"
+          },
+          "cost": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Associated cost (pieces, material, etc). For 'other' it is zero."
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "Date of transaction in YYYY-MM-DD format"
+          }
+        }
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "description": "List of goal actions or checklists",
+      "items": {
+        "type": "object",
+        "required": ["id", "text", "completed"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique task identifier (timestamp)"
+          },
+          "text": {
+            "type": "string",
+            "description": "The task content"
+          },
+          "completed": {
+            "type": "boolean",
+            "description": "Indicates whether the task is complete"
+          }
+        }
+      }
+    },
+    "baseSalary": {
+      "type": "number",
+      "minimum": 0,
+      "default": 5500.00,
+      "description": "Configured base salary from fixed work (used to calculate progressive marginal IRPF)"
+    }
+  }
+}

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Lançamentos | MEI Tech</title>
+    <meta name="description" content="Sistema de controle de serviços de TI e revenda para declaração de imposto.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>Controle de Lançamentos</h1>
+                <p style="color: var(--text-muted);">Gestão de Serviços e Vendas TI</p>
+            </div>
+            <div class="actions-header">
+                <button id="btnLinkFolder" title="Sincronizar com a pasta /data/" class="btn-outline btn-sync-folder">
+                    <span class="sync-dot"></span> <span id="syncText">Vincular Pasta /data/</span>
+                </button>
+                <button id="btnSettings" title="Configurações" class="btn-outline">
+                    <i data-lucide="settings"></i>
+                </button>
+                <button id="btnBackup" title="Backup de Segurança" class="btn-outline">
+                    <i data-lucide="shield-check"></i> Backup
+                </button>
+                <button id="btnRestore" title="Restaurar Dados" class="btn-outline">
+                    <i data-lucide="upload"></i> Importar
+                </button>
+                <button id="btnExport" title="Exportar para CSV">
+                    <i data-lucide="download"></i> Exportar
+                </button>
+                <input type="file" id="fileImport" style="display: none;" accept=".json">
+            </div>
+        </header>
+
+        <section class="dashboard-grid">
+            <div class="card" id="revenueCard" style="cursor: pointer;">
+                <p class="card-title">Receita Bruta (Mês) <i data-lucide="help-circle"
+                        style="width: 14px; vertical-align: middle;"></i></p>
+                <div class="card-value" id="monthlyRevenue">R$ 0,00</div>
+                <div class="split-values">
+                    <span title="Serviços"><i data-lucide="wrench"></i> <span id="splitServices">R$ 0</span></span>
+                    <span title="Vendas"><i data-lucide="shopping-bag"></i> <span id="splitSales">R$ 0</span></span>
+                </div>
+            </div>
+            <div class="card limit-card">
+                <p class="card-title">Monitor Renda Extra (Mês)</p>
+                <div class="card-value" id="extraMonthlyRevenue">R$ 0,00</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="extraProgressBar"></div>
+                </div>
+                <p id="limitInfo" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">0% do teto
+                    de isenção mensal (R$ 2.259,20)</p>
+            </div>
+            <div class="card" id="taxCard" style="border-left: 4px solid var(--danger); cursor: pointer;">
+                <p class="card-title">Reserva p/ Imposto (IRPF) <i data-lucide="help-circle"
+                        style="width: 14px; vertical-align: middle;"></i></p>
+                <div class="card-value" id="taxReserve" style="color: var(--danger);">R$ 0,00</div>
+                <p id="taxExplanation" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Cálculo
+                    baseado no seu salário base</p>
+            </div>
+        </section>
+
+        <!-- Modal de Ajuda Fiscal -->
+        <div id="taxModal" class="modal">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h2><i data-lucide="info"></i> Entendendo a Reserva</h2>
+                    <button class="close-modal">&times;</button>
+                </header>
+                <p id="taxModalDesc">Carregando informações...</p>
+
+                <div class="tip-box">
+                    <h3><i data-lucide="help-circle"></i> Como eu pago?</h3>
+                    <p>O pagamento é feito via <strong>DARF</strong> (Documento de Arrecadação) através de PIX ou
+                        código de barras no app do seu banco.</p>
+                </div>
+
+                <div class="tip-box">
+                    <h3><i data-lucide="calendar"></i> Quando eu pago?</h3>
+                    <ul>
+                        <li><strong>Se o extra mensal < R$ 2.259,20:</strong> Você só paga na Declaração Anual
+                                    (Ajuste) em Março/Abri do ano que vem.</li>
+                        <li><strong>Se o extra mensal > R$ 2.259,20:</strong> Você deve pagar mensalmente via
+                            Carnê-Leão (e-CAC).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <h2 class="section-title"><i data-lucide="plus-circle"></i> Novo Lançamento</h2>
+        <form id="launchForm">
+            <div class="form-grid">
+                <div class="input-group">
+                    <label for="type">Tipo</label>
+                    <select id="type" required>
+                        <option value="service">Serviço (Mão de obra)</option>
+                        <option value="sale">Venda (Equipamento)</option>
+                        <option value="other">Outros (Não tributável: Empréstimo, etc)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="description">Descrição</label>
+                    <input type="text" id="description" placeholder="Ex: Formatação PC" required>
+                </div>
+                <div class="input-group">
+                    <label for="client">Cliente</label>
+                    <input type="text" id="client" placeholder="Nome do cliente" required>
+                </div>
+                <div class="input-group">
+                    <label for="value">Valor (R$)</label>
+                    <input type="number" id="value" step="0.01" placeholder="0.00" required>
+                </div>
+                <div class="input-group" id="costGroup">
+                    <label for="cost">Custo (R$)</label>
+                    <input type="number" id="cost" step="0.01" placeholder="0.00">
+                </div>
+                <div class="input-group">
+                    <label for="date">Data</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="input-group" style="justify-content: flex-end;">
+                    <button type="submit">Lançar Registro</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal de Ajuda Receita e Reembolsos -->
+    <div id="revenueModal" class="modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2><i data-lucide="info"></i> Receita vs. Reembolso</h2>
+                <button class="close-modal-rev">&times;</button>
+            </header>
+            <div class="modal-body">
+                <p>Nem tudo que entra na conta é considerado <strong>Renda Tributável</strong>. É importante saber a
+                    diferença:</p>
+
+                <div class="tip-box">
+                    <h3><i data-lucide="shuffle"></i> Movimentação Neutra</h3>
+                    <p>É quando o dinheiro entra e sai para o mesmo fim sem lucro. Exemplo: Um favor para um amigo.
+                    </p>
+                </div>
+
+                <div class="tip-box">
+                    <h3><i data-lucide="refresh-cw"></i> Reembolso de Custos</h3>
+                    <p>Se você cobra R$ 500, mas R$ 400 foi para pagar peças, o seu <strong>Ganho Real</strong> é
+                        apenas R$ 100.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--primary);"><em>* O sistema usa o
+                            campo "Custo" para abater esses valores do imposto.</em></p>
+                </div>
+
+                <div class="tip-box" style="border-left-color: var(--success);">
+                    <h3><i data-lucide="check-circle"></i> O rastro é sua prova</h3>
+                    <p>Manter a entrada e a saída registradas com o mesmo valor prova para a Receita que não houve
+                        lucro.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="planner-section" style="margin-bottom: 3rem;">
+        <div class="glass-grid">
+            <div class="form-container" style="margin-bottom: 0;">
+                <h2 class="section-title"><i data-lucide="calendar-days"></i> Planejamento</h2>
+                <form id="taskForm">
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="taskInput" placeholder="Ex: Estudar Next.js ou Comprar Teclado Mecânico"
+                            style="flex: 1;" required>
+                        <button type="submit" style="white-space: nowrap;"><i data-lucide="plus"></i>
+                            Adicionar</button>
+                    </div>
+                </form>
+                <ul id="taskList" class="task-list" style="margin-top: 1.5rem; list-style: none;">
+                    <!-- Tasks will be injected here -->
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="annualSummarySection" style="margin-bottom: 3rem;">
+        <h2 class="section-title"><i data-lucide="bar-chart-3"></i> Resumo Consolidado (Ano Atual)</h2>
+        <div class="table-wrapper">
+            <table id="annualSummaryTable">
+                <thead>
+                    <tr>
+                        <th>Mês</th>
+                        <th>Serviços (Mão de Obra)</th>
+                        <th>Vendas (Mercadorias)</th>
+                        <th>Receita Bruta Total</th>
+                        <th>Lucro Liquido (Vendas)</th>
+                    </tr>
+                </thead>
+                <tbody id="annualSummaryBody">
+                    <!-- Dados consolidados serão injetados aqui -->
+                </tbody>
+                <tfoot id="annualSummaryFoot">
+                    <!-- Totais anuais -->
+                </tfoot>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title"><i data-lucide="list"></i> Histórico Recente</h2>
+        <div class="table-wrapper">
+            <table id="recordsTable">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Cliente</th>
+                        <th>Valor</th>
+                        <th>Extras</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="recordsBody">
+                    <!-- Data will be injected here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+    </div>
+
+    <!-- Modal de Configurações -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2><i data-lucide="settings"></i> Configurações</h2>
+                <button class="close-modal-settings"
+                    style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:1.5rem;">&times;</button>
+            </header>
+            <div class="modal-body">
+                <p style="margin-bottom: 1rem; color: var(--text-muted);">Ajuste seu salário fixo (CLT/Pró-labore) para
+                    que o cálculo do imposto de renda sobre o extra seja preciso.</p>
+
+                <form id="settingsForm">
+                    <div class="input-group">
+                        <label for="baseSalaryInput">Salário Base Mensal (R$)</label>
+                        <input type="number" id="baseSalaryInput" step="0.01" placeholder="Ex: 5500.00" required>
+                    </div>
+                    <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
+                        <button type="submit" style="flex: 1;">Salvar Alterações</button>
+                    </div>
+                </form>
+
+                <div class="tip-box" style="margin-top: 2rem; border-left-color: var(--primary);">
+                    <p style="font-size: 0.85rem;">O cálculo utiliza a tabela progressiva do IRPF 2024/2025 para
+                        determinar o imposto adicional gerado pela sua renda extra.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

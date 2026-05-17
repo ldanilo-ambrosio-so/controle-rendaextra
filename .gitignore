@@ -1,0 +1,28 @@
+# Ignorar arquivos de dados reais e backups do usuário
+data/*.json
+data/*.csv
+data/*.xlsx
+backup_*.json
+controle_financeiro_*.csv
+*.json.tmp
+*.csv.tmp
+
+# Não ignorar o arquivo de controle estrutural da pasta de dados
+!data/.gitkeep
+
+# Configurações do VS Code e IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Arquivos temporários e logs do sistema
+.DS_Store
+Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.usage.json

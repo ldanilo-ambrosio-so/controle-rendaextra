@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SpreadsheetSchema",
+  "description": "Schema for physical spreadsheet files exported/written to the /data/ folder in Option A",
+  "type": "object",
+  "properties": {
+    "json_file": {
+      "type": "array",
+      "description": "Content of /data/lancamentos.json",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "description", "client", "value", "cost", "date"],
+        "properties": {
+          "id": {"type": "integer"},
+          "type": {"type": "string", "enum": ["service", "sale", "other"]},
+          "description": {"type": "string"},
+          "client": {"type": "string"},
+          "value": {"type": "number"},
+          "cost": {"type": "number"},
+          "date": {"type": "string", "format": "date"}
+        }
+      }
+    },
+    "csv_file": {
+      "type": "string",
+      "description": "Comma-separated values inside /data/lancamentos.csv",
+      "example": "Data,Tipo,Descrição,Cliente,Valor,Custo,Lucro\n2026-05-17,service,Formatação,João Silveira,150.00,20.00,130.00"
+    }
+  }
+}
