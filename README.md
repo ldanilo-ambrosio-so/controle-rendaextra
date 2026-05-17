@@ -1,4 +1,4 @@
-# Controle de Renda Extra - Lucio Danilo
+# Controle de Renda Extra
 
 Este é um sistema simples e eficiente para controle de serviços de informática e revenda de equipamentos, focado em facilitar a declaração de imposto de renda.
 
@@ -28,4 +28,6 @@ Este projeto está sob a licença **MIT** - consulte o arquivo [LICENSE](LICENSE
 
 ---
 Para informações técnicas detalhadas, arquitetura e guia de funcionalidades, consulte a [Documentação Completa](DOCUMENTACAO.md).
+
+Desenvolvido por **[Lucio Danilo](https://github.com/ldanilo-ambrosio-so)**.
 
