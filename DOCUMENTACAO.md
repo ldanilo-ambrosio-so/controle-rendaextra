@@ -1,4 +1,4 @@
-# Documentação Completa: Controle de Renda Extra - MEI Tech
+# Documentação Completa: Controle de Renda Extra - Lucio Danilo
 
 ## 1. Visão Geral
 O **Controle de Renda Extra** é um painel financeiro inteligente desenvolvido para profissionais que possuem uma renda fixa e realizam serviços de TI ou revenda de equipamentos de forma complementar. O sistema foi personalizado para o perfil **CPF (não MEI)**, com foco no monitoramento do Carnê-Leão e na preparação para a declaração anual de IRPF (Imposto de Renda Pessoa Física).
