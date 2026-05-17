@@ -1,5 +1,7 @@
 # Controle de Renda Extra
 
+![Preview do Aplicativo](docs/preview.png)
+
 Este é um sistema simples e eficiente para controle de serviços de informática e revenda de equipamentos, focado em facilitar a declaração de imposto de renda.
 
 ## Funcionalidades
