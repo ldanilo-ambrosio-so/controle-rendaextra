@@ -2,6 +2,8 @@
 
 ![Preview do Aplicativo](docs/preview.png)
 
+[![LinkedIn Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/lucio-danilo-490a72110/)
+
 Este é um sistema simples e eficiente para controle de serviços de informática e revenda de equipamentos, focado em facilitar a declaração de imposto de renda.
 
 ## Funcionalidades
