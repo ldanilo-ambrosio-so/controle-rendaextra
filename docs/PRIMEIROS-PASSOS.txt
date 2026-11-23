@@ -1,0 +1,15 @@
+RENDA+ — PRIMEIROS PASSOS
+
+1. Extraia o arquivo ZIP em uma pasta do seu computador.
+2. Abra o arquivo index.html no navegador de sua preferência.
+3. Para guardar uma cópia dos seus dados fora do navegador, clique em
+   “Vincular pasta” no topo do aplicativo e escolha uma pasta sua.
+
+Se limpar os dados do navegador, abra novamente o Renda+ e escolha a mesma
+pasta para recuperar seus lançamentos.
+
+Se preferir, use a versão online:
+https://ldanilo-ambrosio-so.github.io/controle-rendaextra/
+
+Importante: seus dados ficam no navegador e, se você escolher uma pasta,
+somente nessa pasta. O Renda+ não compartilha seus lançamentos na nuvem.

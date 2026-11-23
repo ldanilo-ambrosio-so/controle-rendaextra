@@ -6,6 +6,8 @@
 
 **Renda+** é um controle simples de renda extra. Ele ajuda a registrar serviços, vendas e custos, enxergar a evolução mensal e se organizar para uma possível reserva de Imposto de Renda — sem tentar substituir o Carnê-Leão Web ou um contador.
 
+**[Abrir e usar online](https://ldanilo-ambrosio-so.github.io/controle-rendaextra/)** · **[Baixar para o computador](https://github.com/ldanilo-ambrosio-so/controle-rendaextra/releases/latest/download/Renda-mais.zip)**
+
 ## Telas do aplicativo
 
 | Visão geral | Configuração da referência de IR |
