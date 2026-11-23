@@ -1,274 +1,2403 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Controle de Renda Extra</title>
-    <meta name="description" content="Sistema de controle de serviços de TI e revenda para declaração de imposto.">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta
+      name="description"
+      content="Controle simples de serviços, revendas e renda extra."
+    />
+    <style>
+      :root {
+        --green: #176b35;
+        --green-dark: #0d4723;
+        --ink: #142018;
+        --muted: #6b746d;
+        --line: #e0e4dd;
+        --cream: #fbfaf6;
+        --paper: #fff;
+        --amber: #9b6500;
+        --danger: #bd3b35;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: Inter, system-ui, sans-serif;
+        line-height: 1.45;
+      }
+      .app-shell {
+        min-height: 100vh;
+        display: flex;
+      }
+      .sidebar {
+        width: 238px;
+        flex: 0 0 238px;
+        padding: 29px 16px 20px;
+        border-right: 1px solid var(--line);
+        background: #f7f7f2;
+        display: flex;
+        flex-direction: column;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: var(--ink);
+        font-size: 1.35rem;
+        font-weight: 800;
+        text-decoration: none;
+        padding: 0 12px 30px;
+      }
+      .brand span span {
+        color: var(--green);
+      }
+      .brand-dot {
+        width: 13px;
+        height: 13px;
+        border-radius: 100%;
+        background: #12b43c;
+      }
+      nav {
+        display: grid;
+        gap: 5px;
+      }
+      .nav-item {
+        border: 0;
+        background: transparent;
+        color: #263129;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 11px 13px;
+        border-radius: 9px;
+        font: 600 0.89rem Inter;
+        cursor: pointer;
+        text-align: left;
+      }
+      .nav-item:hover,
+      .nav-item.active {
+        background: #dcefd7;
+        color: var(--green-dark);
+      }
+      .nav-item i {
+        width: 20px;
+      }
+      .nav-button {
+        width: 100%;
+      }
+      .sidebar-footer {
+        margin-top: auto;
+        border-top: 1px solid #d8ddd5;
+        padding-top: 17px;
+      }
+      .sidebar-footer p {
+        color: var(--muted);
+        font-size: 0.71rem;
+        padding: 9px 12px;
+        display: flex;
+        gap: 7px;
+        align-items: flex-start;
+      }
+      .sidebar-footer p i {
+        width: 14px;
+        flex: none;
+      }
+      .main-content {
+        width: 100%;
+        max-width: 1480px;
+        padding: 31px 46px 38px;
+        margin: 0 auto;
+      }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: flex-start;
+        margin-bottom: 32px;
+      }
+      .eyebrow {
+        font-size: 0.68rem;
+        letter-spacing: 0.11em;
+        font-weight: 800;
+        color: var(--green);
+        margin: 0 0 5px;
+      }
+      h1,
+      h2 {
+        margin: 0;
+        letter-spacing: -0.04em;
+      }
+      h1 {
+        font-size: 2.1rem;
+        line-height: 1.08;
+      }
+      h2 {
+        font-size: 1.35rem;
+      }
+      .subtitle,
+      .section-heading > p {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 0.91rem;
+      }
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .month-select,
+      .icon-button {
+        height: 43px;
+        border: 1px solid #d8ddd5;
+        border-radius: 10px;
+        background: var(--paper);
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 0 13px;
+        font: 600 0.83rem Inter;
+      }
+      .month-select i {
+        width: 17px;
+      }
+      .month-select i:last-child {
+        width: 15px;
+        margin-left: 8px;
+      }
+      .icon-button {
+        width: 43px;
+        justify-content: center;
+        padding: 0;
+        cursor: pointer;
+      }
+      .icon-button i {
+        width: 18px;
+      }
+      .btn-primary,
+      .btn-secondary {
+        border: 0;
+        border-radius: 10px;
+        min-height: 43px;
+        padding: 0 15px;
+        font: 700 0.82rem Inter;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: var(--green);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--green-dark);
+      }
+      .btn-secondary {
+        background: #edf3e9;
+        color: var(--green-dark);
+      }
+      .btn-folder {
+        min-height: 43px;
+        padding: 0 14px;
+        border: 1px solid #d2e2cf;
+        border-radius: 10px;
+        background: #f2f8ef;
+        color: var(--green-dark);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font: 700 0.82rem Inter;
+        cursor: pointer;
+        transition:
+          background 0.18s,
+          border-color 0.18s,
+          transform 0.18s;
+      }
+      .btn-folder:hover {
+        background: #e4f2df;
+        border-color: #9dc995;
+        transform: translateY(-1px);
+      }
+      .btn-folder i {
+        width: 18px;
+      }
+      .btn-folder.active {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+      }
+      .btn-folder.pending {
+        background: #fff6dc;
+        border-color: #eac86f;
+        color: #7a5700;
+      }
+      button i {
+        width: 17px;
+      }
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+      .dashboard-workspace {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 330px;
+        gap: 18px;
+        align-items: start;
+        margin-bottom: 24px;
+      }
+      .chart-card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 15px;
+        padding: 23px 25px 18px;
+        min-height: 340px;
+      }
+      .chart-legend {
+        display: flex;
+        gap: 15px;
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
+      .chart-legend span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .legend-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .legend-dot.revenue {
+        background: #247346;
+      }
+      .legend-dot.cost {
+        background: #cae6bd;
+      }
+      .legend-line {
+        width: 17px;
+        height: 2px;
+        background: var(--green);
+        display: inline-block;
+        position: relative;
+      }
+      .legend-line::after {
+        content: "";
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border: 2px solid var(--green);
+        border-radius: 50%;
+        background: #fff;
+        top: -4px;
+        right: 4px;
+      }
+      .cash-flow-chart {
+        position: relative;
+        min-height: 250px;
+      }
+      .cash-flow-chart svg {
+        display: block;
+        width: 100%;
+        height: 250px;
+        overflow: visible;
+      }
+      .chart-grid-line {
+        stroke: #e8ede7;
+        stroke-width: 1;
+      }
+      .chart-revenue-bar {
+        fill: #367d50;
+      }
+      .chart-cost-bar {
+        fill: #cfe7c4;
+      }
+      .chart-profit-line {
+        fill: none;
+        stroke: var(--green);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .chart-profit-point {
+        fill: #fff;
+        stroke: var(--green);
+        stroke-width: 3;
+      }
+      .chart-label {
+        fill: #637067;
+        font-size: 13px;
+        font-family: Inter, sans-serif;
+        text-transform: capitalize;
+      }
+      .chart-empty {
+        position: absolute;
+        inset: 105px 0 auto;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+      .metric-card {
+        min-height: 172px;
+        border-radius: 15px;
+        padding: 22px 24px;
+        border: 1px solid var(--line);
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px #1022170c;
+      }
+      .metric-income {
+        background: linear-gradient(135deg, #f4fbf2, #dff3da);
+      }
+      .metric-progress {
+        background: #fff;
+      }
+      .metric-tax {
+        background: linear-gradient(135deg, #fffaf0, #fff0d1);
+        border-color: #f0dfb8;
+      }
+      .metric-heading {
+        font-size: 0.94rem;
+        font-weight: 750;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+      }
+      .metric-icon {
+        display: grid;
+        place-items: center;
+        color: var(--green-dark);
+      }
+      .metric-icon i {
+        width: 25px;
+        height: 25px;
+      }
+      .metric-tax .metric-icon,
+      .metric-tax .help-icon {
+        color: var(--amber);
+      }
+      .help-icon {
+        width: 17px;
+        margin-left: auto;
+        color: var(--muted);
+      }
+      .metric-value {
+        display: block;
+        font-size: 2rem;
+        letter-spacing: -0.05em;
+        margin: 19px 0 6px;
+      }
+      .metric-tax .metric-value {
+        color: #704700;
+      }
+      .metric-detail {
+        margin: 0;
+        color: #4c5b4f;
+        font-size: 0.78rem;
+      }
+      .detail-separator {
+        color: #a0aaa1;
+        padding: 0 4px;
+      }
+      .progress-container {
+        height: 8px;
+        border-radius: 20px;
+        background: #e7ebe5;
+        margin: 16px 0 8px;
+        overflow: hidden;
+      }
+      .progress-bar {
+        height: 100%;
+        width: 0;
+        background: var(--green);
+        border-radius: inherit;
+        transition: width 0.4s;
+      }
+      .quick-entry,
+      .content-card,
+      .table-wrapper {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 15px;
+      }
+      .quick-entry {
+        padding: 23px 25px;
+        margin-bottom: 16px;
+      }
+      .section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+      .section-heading > p {
+        font-size: 0.81rem;
+        margin: 0;
+      }
+      .launch-form {
+        display: grid;
+        grid-template-columns: 1.7fr repeat(5, minmax(110px, 1fr)) auto;
+        gap: 12px;
+        align-items: end;
+      }
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+      }
+      .input-group label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #536057;
+      }
+      input,
+      select {
+        border: 1px solid #d9dfd8;
+        border-radius: 8px;
+        min-width: 0;
+        background: #fff;
+        color: var(--ink);
+        height: 43px;
+        padding: 0 11px;
+        font: 500 0.84rem Inter;
+        outline: none;
+      }
+      input:focus,
+      select:focus {
+        border-color: var(--green);
+        box-shadow: 0 0 0 3px #176b3515;
+      }
+      .submit-entry {
+        white-space: nowrap;
+      }
+      .notice {
+        background: #edf6e9;
+        border: 1px solid #d5e9ca;
+        border-radius: 11px;
+        padding: 13px 16px;
+        margin-bottom: 24px;
+        color: #38513b;
+        font-size: 0.78rem;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .notice i {
+        width: 17px;
+        flex: none;
+        color: var(--green);
+      }
+      .notice p {
+        margin: 0;
+      }
+      .planner-section {
+        padding: 23px 21px;
+        margin: 0;
+      }
+      .task-form {
+        display: flex;
+        gap: 10px;
+      }
+      .task-form .btn-secondary {
+        width: 43px;
+        padding: 0;
+        flex: none;
+      }
+      .task-form input {
+        flex: 1;
+      }
+      .task-list {
+        margin: 17px 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 7px;
+      }
+      .task-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid #edf0eb;
+        padding: 12px 3px;
+      }
+      .task-content {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        cursor: pointer;
+        flex: 1;
+      }
+      .task-checkbox {
+        height: 19px;
+        width: 19px;
+        border: 2px solid #9aa99d;
+        border-radius: 5px;
+        display: grid;
+        place-items: center;
+        color: transparent;
+      }
+      .task-item.completed .task-checkbox {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+      }
+      .task-item.completed .task-text {
+        text-decoration: line-through;
+        color: var(--muted);
+      }
+      .btn-delete-task {
+        border: 0;
+        background: transparent;
+        color: var(--danger);
+        padding: 5px;
+        cursor: pointer;
+      }
+      .btn-delete-record {
+        width: 36px;
+        height: 36px;
+        display: inline-grid;
+        place-items: center;
+        border: 1px solid #f2cbc8;
+        border-radius: 9px;
+        background: #fff7f6;
+        color: var(--danger);
+        cursor: pointer;
+        transition:
+          background 0.18s,
+          border-color 0.18s,
+          transform 0.18s;
+      }
+      .btn-delete-record:hover {
+        background: #fde7e5;
+        border-color: #df716a;
+        transform: translateY(-1px);
+      }
+      .btn-delete-record:focus-visible {
+        outline: 3px solid #bd3b3530;
+        outline-offset: 2px;
+      }
+      .btn-delete-record i {
+        width: 18px;
+        height: 18px;
+      }
+      .content-section {
+        margin: 0 0 26px;
+      }
+      .table-wrapper {
+        overflow: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 650px;
+        font-size: 0.82rem;
+      }
+      th {
+        text-align: left;
+        color: #607066;
+        background: #f6f7f3;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        padding: 12px 15px;
+      }
+      td {
+        padding: 13px 15px;
+        border-top: 1px solid #edf0eb;
+      }
+      tfoot td {
+        font-weight: 800;
+        background: #eef6e9;
+        color: var(--green-dark);
+      }
+      .status-badge {
+        display: inline-flex;
+        border-radius: 99px;
+        padding: 4px 8px;
+        font-size: 0.69rem;
+        font-weight: 700;
+      }
+      .type-service {
+        color: #125d30;
+        background: #e0f1df;
+      }
+      .type-sale {
+        color: #69510b;
+        background: #fff1ca;
+      }
+      .type-other {
+        color: #536057;
+        background: #edf0eb;
+      }
+      footer {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .link-folder {
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        font: 600 0.72rem Inter;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        cursor: pointer;
+      }
+      .sync-dot {
+        width: 8px;
+        height: 8px;
+        background: #9aa99d;
+        border-radius: 50%;
+      }
+      .btn-sync-folder.active .sync-dot {
+        background: #1fa14b;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        background: #0c160c99;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .modal-content {
+        width: min(500px, 100%);
+        background: #fff;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 30px 80px #0004;
+      }
+      .folder-modal-content {
+        max-width: 510px;
+      }
+      .folder-intro {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .folder-benefits {
+        display: grid;
+        gap: 11px;
+        margin: 19px 0 23px;
+      }
+      .folder-benefits > div {
+        display: flex;
+        gap: 12px;
+        padding: 12px;
+        border: 1px solid #e2ebdf;
+        background: #f6faf4;
+        border-radius: 10px;
+      }
+      .folder-benefits > div > i {
+        width: 21px;
+        color: var(--green);
+        flex: none;
+        margin-top: 2px;
+      }
+      .folder-benefits p {
+        margin: 0;
+        font-size: 0.8rem;
+      }
+      .folder-benefits strong,
+      .folder-benefits span {
+        display: block;
+      }
+      .folder-benefits span {
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .folder-modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 9px;
+      }
+      .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 17px;
+      }
+      .modal-header h2 {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 1.2rem;
+      }
+      .close-modal,
+      .close-modal-rev,
+      .close-modal-settings {
+        border: 0;
+        background: transparent;
+        font-size: 1.6rem;
+        cursor: pointer;
+        color: var(--muted);
+      }
+      .modal-body > p {
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+      .modal form {
+        display: grid;
+        gap: 15px;
+        margin-top: 17px;
+      }
+      .tax-ruler {
+        border: 1px solid #e0e8dd;
+        background: #f8faf7;
+        border-radius: 10px;
+        padding: 13px;
+      }
+      .tax-ruler-heading {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 0.76rem;
+        color: var(--green-dark);
+      }
+      .tax-ruler-heading span {
+        font-weight: 800;
+      }
+      .tax-ruler-track {
+        display: flex;
+        height: 12px;
+        margin: 12px 0 7px;
+        border-radius: 999px;
+        overflow: visible;
+        position: relative;
+      }
+      .tax-ruler-zone {
+        display: block;
+        height: 100%;
+      }
+      .tax-ruler-zero {
+        width: 55.56%;
+        background: #bfe2b6;
+        border-radius: 999px 0 0 999px;
+      }
+      .tax-ruler-partial {
+        width: 26.11%;
+        background: #f8d98b;
+      }
+      .tax-ruler-normal {
+        width: 18.33%;
+        background: #f1b9b4;
+        border-radius: 0 999px 999px 0;
+      }
+      .tax-ruler-marker {
+        position: absolute;
+        top: -5px;
+        width: 3px;
+        height: 22px;
+        border-radius: 2px;
+        background: #18271c;
+        transform: translateX(-50%);
+        box-shadow: 0 0 0 2px #fff;
+        transition: left 0.2s ease;
+      }
+      .tax-ruler-labels {
+        display: grid;
+        grid-template-columns: 1.7fr 1.2fr 1fr;
+        gap: 4px;
+        color: var(--muted);
+        font-size: 0.62rem;
+        line-height: 1.25;
+      }
+      .tax-ruler-labels span:nth-child(2) {
+        text-align: center;
+      }
+      .tax-ruler-labels span:last-child {
+        text-align: right;
+      }
+      .tax-ruler-labels b {
+        font-weight: 700;
+        color: #536057;
+      }
+      .tax-ruler-message {
+        margin: 12px 0 0;
+        color: #405446;
+        font-size: 0.74rem;
+      }
+      .tip-box {
+        background: #f1f7ee;
+        border-left: 3px solid var(--green);
+        border-radius: 6px;
+        padding: 13px;
+        margin-top: 16px;
+        font-size: 0.84rem;
+      }
+      .tip-box h3 {
+        font-size: 0.9rem;
+        margin: 0 0 6px;
+        display: flex;
+        gap: 7px;
+        align-items: center;
+      }
+      .tip-box p {
+        margin: 0;
+      }
+      @media (max-width: 1200px) {
+        .launch-form {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .field-wide {
+          grid-column: span 2;
+        }
+      }
+      @media (max-width: 900px) {
+        .sidebar {
+          width: 64px;
+          flex-basis: 64px;
+          padding: 25px 8px;
+        }
+        .brand {
+          padding: 0;
+          justify-content: center;
+        }
+        .brand > span:last-child,
+        .nav-item:not(.nav-button) {
+          font-size: 0;
+        }
+        .nav-item {
+          justify-content: center;
+          padding: 12px;
+        }
+        .nav-item i {
+          width: 21px;
+        }
+        .nav-button {
+          font-size: 0;
+        }
+        .sidebar-footer p {
+          display: none;
+        }
+        .main-content {
+          padding: 28px 25px;
+        }
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+        .dashboard-workspace {
+          grid-template-columns: 1fr;
+        }
+        .metric-card {
+          min-height: 145px;
+        }
+      }
+      @media (max-width: 650px) {
+        .app-shell {
+          display: block;
+        }
+        .sidebar {
+          position: static;
+          width: 100%;
+          height: auto;
+          flex-basis: auto;
+          flex-direction: row;
+          align-items: center;
+          padding: 11px;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .brand {
+          margin-right: auto;
+          padding: 0 8px;
+        }
+        .brand > span:last-child {
+          font-size: 1rem;
+        }
+        .sidebar nav {
+          display: flex;
+        }
+        .nav-item {
+          padding: 8px;
+        }
+        .sidebar-footer {
+          display: none;
+        }
+        .main-content {
+          padding: 24px 16px;
+        }
+        .topbar {
+          display: block;
+        }
+        .header-actions {
+          margin-top: 17px;
+          flex-wrap: wrap;
+        }
+        .month-select {
+          margin-right: auto;
+        }
+        .header-actions .icon-button {
+          display: none;
+        }
+        .dashboard-grid {
+          gap: 12px;
+        }
+        .chart-card {
+          padding: 18px;
+          min-height: 310px;
+        }
+        .chart-legend {
+          gap: 8px;
+          font-size: 0.65rem;
+        }
+        .cash-flow-chart svg {
+          height: 220px;
+        }
+        .launch-form {
+          grid-template-columns: 1fr 1fr;
+        }
+        .field-wide {
+          grid-column: span 2;
+        }
+        .submit-entry {
+          grid-column: span 2;
+        }
+        .quick-entry,
+        .planner-section {
+          padding: 18px;
+        }
+        .section-heading {
+          align-items: flex-start;
+        }
+        .section-heading > p {
+          display: none;
+        }
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-
-<body>
-    <div class="container">
-        <header>
-            <div>
-                <h1>Controle de Lançamentos</h1>
-                <p style="color: var(--text-muted);">Gestão de Serviços e Vendas TI</p>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#inicio"
+          ><span class="brand-dot"></span><span>Renda<span>+</span></span></a
+        >
+        <nav aria-label="Navegação principal">
+          <a class="nav-item active" href="#inicio"
+            ><i data-lucide="layout-dashboard"></i>Início</a
+          ><a class="nav-item" href="#novo-lancamento"
+            ><i data-lucide="plus-circle"></i>Novo lançamento</a
+          ><a class="nav-item" href="#historico"
+            ><i data-lucide="receipt-text"></i>Lançamentos</a
+          ><a class="nav-item" href="#planejamento"
+            ><i data-lucide="target"></i>Metas e tarefas</a
+          ><a class="nav-item" href="#resumo"
+            ><i data-lucide="chart-no-axes-combined"></i>Resumo anual</a
+          >
+        </nav>
+        <div class="sidebar-footer">
+          <button id="btnSettings" class="nav-item nav-button">
+            <i data-lucide="settings-2"></i>Configurações
+          </button>
+          <p>
+            <i data-lucide="lock-keyhole"></i>Seus dados ficam neste navegador.
+          </p>
+        </div>
+      </aside>
+      <main class="main-content" id="inicio">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">VISÃO GERAL</p>
+            <h1>Controle de Renda Extra</h1>
+            <p class="subtitle">
+              Serviços, revendas e caixa — de forma simples.
+            </p>
+          </div>
+          <div class="header-actions">
+            <div class="month-select">
+              <i data-lucide="calendar-days"></i><span>Este mês</span
+              ><i data-lucide="chevron-down"></i>
             </div>
-            <div class="actions-header">
-                <button id="btnLinkFolder" title="Sincronizar com a pasta /data/" class="btn-outline btn-sync-folder">
-                    <span class="sync-dot"></span> <span id="syncText">Vincular Pasta /data/</span>
-                </button>
-                <button id="btnSettings" title="Configurações" class="btn-outline">
-                    <i data-lucide="settings"></i>
-                </button>
-                <button id="btnBackup" title="Backup de Segurança" class="btn-outline">
-                    <i data-lucide="shield-check"></i> Backup
-                </button>
-                <button id="btnRestore" title="Restaurar Dados" class="btn-outline">
-                    <i data-lucide="upload"></i> Importar
-                </button>
-                <button id="btnExport" title="Exportar para CSV">
-                    <i data-lucide="download"></i> Exportar
-                </button>
-                <input type="file" id="fileImport" style="display: none;" accept=".json">
-            </div>
+            <button id="btnBackup" class="icon-button" title="Fazer backup">
+              <i data-lucide="shield-check"></i></button
+            ><button
+              id="btnRestore"
+              class="icon-button"
+              title="Importar backup"
+            >
+              <i data-lucide="upload"></i></button
+            ><button id="btnLinkFolder" class="btn-folder" type="button">
+              <i data-lucide="folder-sync"></i
+              ><span id="syncText">Vincular pasta</span></button
+            ><button id="btnExport" class="btn-primary">
+              <i data-lucide="download"></i>Exportar</button
+            ><input type="file" id="fileImport" hidden accept=".json" />
+          </div>
         </header>
-
         <section class="dashboard-grid">
-            <div class="card" id="revenueCard" style="cursor: pointer;">
-                <p class="card-title">Receita Bruta (Mês) <i data-lucide="help-circle"
-                        style="width: 14px; vertical-align: middle;"></i></p>
-                <div class="card-value" id="monthlyRevenue">R$ 0,00</div>
-                <div class="split-values">
-                    <span title="Serviços"><i data-lucide="wrench"></i> <span id="splitServices">R$ 0</span></span>
-                    <span title="Vendas"><i data-lucide="shopping-bag"></i> <span id="splitSales">R$ 0</span></span>
-                </div>
+          <article class="metric-card metric-income" id="revenueCard">
+            <div class="metric-heading">
+              <span class="metric-icon"><i data-lucide="wallet-cards"></i></span
+              ><span>Recebido no mês</span
+              ><i data-lucide="circle-help" class="help-icon"></i>
             </div>
-            <div class="card limit-card">
-                <p class="card-title">Monitor Renda Extra (Mês)</p>
-                <div class="card-value" id="extraMonthlyRevenue">R$ 0,00</div>
-                <div class="progress-container">
-                    <div class="progress-bar" id="extraProgressBar"></div>
-                </div>
-                <p id="limitInfo" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">0% do teto
-                    de isenção mensal (R$ 2.259,20)</p>
+            <strong class="metric-value" id="monthlyRevenue">R$ 0,00</strong>
+            <p class="metric-detail">
+              <span id="splitServices">R$ 0</span> em serviços
+              <span class="detail-separator">•</span
+              ><span id="splitSales">R$ 0</span> em vendas
+            </p>
+          </article>
+          <article class="metric-card metric-progress">
+            <div class="metric-heading">
+              <span class="metric-icon"><i data-lucide="file-clock"></i></span
+              ><span>A receber</span>
             </div>
-            <div class="card" id="taxCard" style="border-left: 4px solid var(--danger); cursor: pointer;">
-                <p class="card-title">Reserva p/ Imposto (IRPF) <i data-lucide="help-circle"
-                        style="width: 14px; vertical-align: middle;"></i></p>
-                <div class="card-value" id="taxReserve" style="color: var(--danger);">R$ 0,00</div>
-                <p id="taxExplanation" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Cálculo
-                    baseado no seu salário base</p>
+            <strong class="metric-value" id="extraMonthlyRevenue"
+              >R$ 0,00</strong
+            >
+            <p id="limitInfo" class="metric-detail">
+              Nenhum pagamento pendente
+            </p>
+          </article>
+          <article class="metric-card metric-tax" id="taxCard">
+            <div class="metric-heading">
+              <span class="metric-icon"><i data-lucide="shield-check"></i></span
+              ><span>Reserva sugerida</span
+              ><i data-lucide="circle-help" class="help-icon"></i>
             </div>
+            <strong class="metric-value" id="taxReserve">R$ 0,00</strong>
+            <p id="taxExplanation" class="metric-detail">
+              Estimativa baseada nas suas configurações
+            </p>
+          </article>
         </section>
 
-        <!-- Modal de Ajuda Fiscal -->
-        <div id="taxModal" class="modal">
-            <div class="modal-content">
-                <header class="modal-header">
-                    <h2><i data-lucide="info"></i> Entendendo a Reserva</h2>
-                    <button class="close-modal">&times;</button>
-                </header>
-                <p id="taxModalDesc">Carregando informações...</p>
-
-                <div class="tip-box">
-                    <h3><i data-lucide="help-circle"></i> Como eu pago?</h3>
-                    <p>O pagamento é feito via <strong>DARF</strong> (Documento de Arrecadação) através de PIX ou
-                        código de barras no app do seu banco.</p>
-                </div>
-
-                <div class="tip-box">
-                    <h3><i data-lucide="calendar"></i> Quando eu pago?</h3>
-                    <ul>
-                        <li><strong>Se o extra mensal < R$ 2.259,20:</strong> Você só paga na Declaração Anual
-                                    (Ajuste) em Março/Abri do ano que vem.</li>
-                        <li><strong>Se o extra mensal > R$ 2.259,20:</strong> Você deve pagar mensalmente via
-                            Carnê-Leão (e-CAC).</li>
-                    </ul>
-                </div>
+        <div class="dashboard-workspace">
+          <section class="chart-card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">EVOLUÇÃO</p>
+                <h2>Fluxo de caixa e lucro</h2>
+              </div>
+              <div class="chart-legend" aria-label="Legenda do gráfico">
+                <span><i class="legend-dot revenue"></i>Receita</span>
+                <span><i class="legend-dot cost"></i>Custos</span>
+                <span><i class="legend-line"></i>Lucro</span>
+              </div>
             </div>
+            <div
+              id="cashFlowChart"
+              class="cash-flow-chart"
+              aria-label="Gráfico dos últimos seis meses"
+            ></div>
+          </section>
+
+          <aside id="planejamento" class="content-card planner-section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">PLANEJAMENTO</p>
+                <h2>Metas e tarefas</h2>
+              </div>
+            </div>
+            <form id="taskForm" class="task-form">
+              <input
+                type="text"
+                id="taskInput"
+                placeholder="Ex.: Separar documentos ou responder cliente"
+                autocomplete="off"
+                required
+              />
+              <button
+                type="submit"
+                class="btn-secondary"
+                aria-label="Adicionar tarefa"
+              >
+                <i data-lucide="plus"></i>
+              </button>
+            </form>
+            <ul id="taskList" class="task-list"></ul>
+          </aside>
         </div>
-    </div>
 
-    <div class="form-container">
-        <h2 class="section-title"><i data-lucide="plus-circle"></i> Novo Lançamento</h2>
-        <form id="launchForm">
-            <div class="form-grid">
-                <div class="input-group">
-                    <label for="type">Tipo</label>
-                    <select id="type" required>
-                        <option value="service">Serviço (Mão de obra)</option>
-                        <option value="sale">Venda (Equipamento)</option>
-                        <option value="other">Outros (Não tributável: Empréstimo, etc)</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label for="description">Descrição</label>
-                    <input type="text" id="description" placeholder="Ex: Formatação PC" required>
-                </div>
-                <div class="input-group">
-                    <label for="client">Cliente</label>
-                    <input type="text" id="client" placeholder="Nome do cliente" required>
-                </div>
-                <div class="input-group">
-                    <label for="value">Valor (R$)</label>
-                    <input type="number" id="value" step="0.01" placeholder="0.00" required>
-                </div>
-                <div class="input-group" id="costGroup">
-                    <label for="cost">Custo (R$)</label>
-                    <input type="number" id="cost" step="0.01" placeholder="0.00">
-                </div>
-                <div class="input-group">
-                    <label for="date">Data</label>
-                    <input type="date" id="date" required>
-                </div>
-                <div class="input-group" style="justify-content: flex-end;">
-                    <button type="submit">Lançar Registro</button>
-                </div>
+        <section id="novo-lancamento" class="quick-entry">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">REGISTRO RÁPIDO</p>
+              <h2>Novo lançamento</h2>
             </div>
-        </form>
-    </div>
-
-    <!-- Modal de Ajuda Receita e Reembolsos -->
-    <div id="revenueModal" class="modal">
-        <div class="modal-content">
-            <header class="modal-header">
-                <h2><i data-lucide="info"></i> Receita vs. Reembolso</h2>
-                <button class="close-modal-rev">&times;</button>
-            </header>
-            <div class="modal-body">
-                <p>Nem tudo que entra na conta é considerado <strong>Renda Tributável</strong>. É importante saber a
-                    diferença:</p>
-
-                <div class="tip-box">
-                    <h3><i data-lucide="shuffle"></i> Movimentação Neutra</h3>
-                    <p>É quando o dinheiro entra e sai para o mesmo fim sem lucro. Exemplo: Um favor para um amigo.
-                    </p>
-                </div>
-
-                <div class="tip-box">
-                    <h3><i data-lucide="refresh-cw"></i> Reembolso de Custos</h3>
-                    <p>Se você cobra R$ 500, mas R$ 400 foi para pagar peças, o seu <strong>Ganho Real</strong> é
-                        apenas R$ 100.</p>
-                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--primary);"><em>* O sistema usa o
-                            campo "Custo" para abater esses valores do imposto.</em></p>
-                </div>
-
-                <div class="tip-box" style="border-left-color: var(--success);">
-                    <h3><i data-lucide="check-circle"></i> O rastro é sua prova</h3>
-                    <p>Manter a entrada e a saída registradas com o mesmo valor prova para a Receita que não houve
-                        lucro.</p>
-                </div>
+            <p>Registre uma entrada em poucos segundos.</p>
+          </div>
+          <form id="launchForm" class="launch-form" autocomplete="off">
+            <div class="input-group field-wide">
+              <label for="description">O que você fez ou vendeu?</label
+              ><input
+                type="text"
+                id="description"
+                placeholder="Ex.: Aula, conserto, venda ou encomenda"
+                autocomplete="new-password"
+                required
+              />
             </div>
-        </div>
-    </div>
-
-    <section class="planner-section" style="margin-bottom: 3rem;">
-        <div class="glass-grid">
-            <div class="form-container" style="margin-bottom: 0;">
-                <h2 class="section-title"><i data-lucide="calendar-days"></i> Planejamento</h2>
-                <form id="taskForm">
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="taskInput" placeholder="Ex: Estudar Next.js ou Comprar Teclado Mecânico"
-                            style="flex: 1;" required>
-                        <button type="submit" style="white-space: nowrap;"><i data-lucide="plus"></i>
-                            Adicionar</button>
-                    </div>
-                </form>
-                <ul id="taskList" class="task-list" style="margin-top: 1.5rem; list-style: none;">
-                    <!-- Tasks will be injected here -->
-                </ul>
+            <div class="input-group">
+              <label for="value">Valor</label
+              ><input
+                type="number"
+                id="value"
+                step="0.01"
+                placeholder="R$ 0,00"
+                required
+              />
             </div>
-        </div>
-    </section>
-
-    <section id="annualSummarySection" style="margin-bottom: 3rem;">
-        <h2 class="section-title"><i data-lucide="bar-chart-3"></i> Resumo Consolidado (Ano Atual)</h2>
-        <div class="table-wrapper">
+            <div class="input-group">
+              <label for="type">Tipo</label
+              ><select id="type" required>
+                <option value="service">Serviço</option>
+                <option value="sale">Venda / revenda</option>
+                <option value="other">Outro / não tributável</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="client">Cliente</label
+              ><input
+                type="text"
+                id="client"
+                placeholder="Ex.: Maria ou Loja X"
+                autocomplete="new-password"
+                required
+              />
+            </div>
+            <div class="input-group" id="costGroup">
+              <label for="cost">Custo</label
+              ><input
+                type="number"
+                id="cost"
+                step="0.01"
+                placeholder="Opcional"
+              />
+            </div>
+            <div class="input-group">
+              <label for="date">Data</label
+              ><input type="date" id="date" required />
+            </div>
+            <button type="submit" class="btn-primary submit-entry">
+              <i data-lucide="plus"></i>Adicionar
+            </button>
+          </form>
+        </section>
+        <section class="notice">
+          <i data-lucide="info"></i>
+          <p>
+            <strong>Organização, não apuração oficial.</strong> Esta é uma
+            estimativa para ajudar no planejamento. Confirme os valores no
+            Carnê-Leão Web ou com um contador.
+          </p>
+        </section>
+        <section id="resumo" class="content-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">ACOMPANHAMENTO</p>
+              <h2>Resumo do ano</h2>
+            </div>
+          </div>
+          <div class="table-wrapper">
             <table id="annualSummaryTable">
-                <thead>
-                    <tr>
-                        <th>Mês</th>
-                        <th>Serviços (Mão de Obra)</th>
-                        <th>Vendas (Mercadorias)</th>
-                        <th>Receita Bruta Total</th>
-                        <th>Lucro Liquido (Vendas)</th>
-                    </tr>
-                </thead>
-                <tbody id="annualSummaryBody">
-                    <!-- Dados consolidados serão injetados aqui -->
-                </tbody>
-                <tfoot id="annualSummaryFoot">
-                    <!-- Totais anuais -->
-                </tfoot>
+              <thead>
+                <tr>
+                  <th>Mês</th>
+                  <th>Serviços</th>
+                  <th>Vendas</th>
+                  <th>Receita total</th>
+                  <th>Lucro das vendas</th>
+                </tr>
+              </thead>
+              <tbody id="annualSummaryBody"></tbody>
+              <tfoot id="annualSummaryFoot"></tfoot>
             </table>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="section-title"><i data-lucide="list"></i> Histórico Recente</h2>
-        <div class="table-wrapper">
-            <table id="recordsTable">
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Tipo</th>
-                        <th>Descrição</th>
-                        <th>Cliente</th>
-                        <th>Valor</th>
-                        <th>Extras</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="recordsBody">
-                    <!-- Data will be injected here -->
-                </tbody>
-            </table>
-        </div>
-    </section>
-    </div>
-
-    <!-- Modal de Configurações -->
-    <div id="settingsModal" class="modal">
-        <div class="modal-content">
-            <header class="modal-header">
-                <h2><i data-lucide="settings"></i> Configurações</h2>
-                <button class="close-modal-settings"
-                    style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:1.5rem;">&times;</button>
-            </header>
-            <div class="modal-body">
-                <p style="margin-bottom: 1rem; color: var(--text-muted);">Ajuste seu salário fixo (CLT/Pró-labore) para
-                    que o cálculo do imposto de renda sobre o extra seja preciso.</p>
-
-                <form id="settingsForm">
-                    <div class="input-group">
-                        <label for="baseSalaryInput">Salário Base Mensal (R$)</label>
-                        <input type="number" id="baseSalaryInput" step="0.01" placeholder="Ex: 5500.00" required>
-                    </div>
-                    <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
-                        <button type="submit" style="flex: 1;">Salvar Alterações</button>
-                    </div>
-                </form>
-
-                <div class="tip-box" style="margin-top: 2rem; border-left-color: var(--primary);">
-                    <p style="font-size: 0.85rem;">O cálculo utiliza a tabela progressiva do IRPF 2024/2025 para
-                        determinar o imposto adicional gerado pela sua renda extra.</p>
-                </div>
+          </div>
+        </section>
+        <section id="historico" class="content-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">MOVIMENTAÇÕES</p>
+              <h2>Histórico recente</h2>
             </div>
-        </div>
+          </div>
+          <div class="table-wrapper">
+            <table id="recordsTable">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Tipo</th>
+                  <th>Descrição</th>
+                  <th>Cliente</th>
+                  <th>Valor</th>
+                  <th>Detalhes</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="recordsBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
     </div>
-
-    <script src="app.js"></script>
+    <div id="taxModal" class="modal">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2><i data-lucide="info"></i>Reserva sugerida</h2>
+          <button class="close-modal" aria-label="Fechar">&times;</button>
+        </header>
+        <p id="taxModalDesc">Carregando informações...</p>
+        <div class="tip-box">
+          <h3><i data-lucide="circle-check"></i>Use como referência</h3>
+          <p>
+            Esta sugestão ajuda a planejar seu dinheiro. Para confirmar valores
+            e prazos, consulte o Carnê-Leão Web ou um contador.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div id="revenueModal" class="modal">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2><i data-lucide="info"></i>Sobre sua receita</h2>
+          <button class="close-modal-rev" aria-label="Fechar">&times;</button>
+        </header>
+        <div class="tip-box">
+          <h3><i data-lucide="wallet"></i>Organização simples</h3>
+          <p>
+            Registre serviços, revendas e outras entradas para acompanhar o mês.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div id="settingsModal" class="modal">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2><i data-lucide="settings"></i>Configurações</h2>
+          <button class="close-modal-settings" aria-label="Fechar">
+            &times;
+          </button>
+        </header>
+        <div class="modal-body">
+          <p>
+            Informe seu salário bruto mensal para personalizar a sugestão de
+            reserva de 2026.
+          </p>
+          <form id="settingsForm">
+            <div class="input-group">
+              <label for="baseSalaryInput">Salário bruto mensal</label
+              ><input
+                type="number"
+                id="baseSalaryInput"
+                step="0.01"
+                placeholder="R$ 0,00"
+                required
+              />
+            </div>
+            <div
+              class="tax-ruler"
+              aria-label="Régua de referência do imposto de renda"
+            >
+              <div class="tax-ruler-heading">
+                <strong>Régua mensal de referência</strong
+                ><span id="taxRulerIncome">R$ 0,00</span>
+              </div>
+              <div class="tax-ruler-track">
+                <span class="tax-ruler-zone tax-ruler-zero"></span
+                ><span class="tax-ruler-zone tax-ruler-partial"></span
+                ><span class="tax-ruler-zone tax-ruler-normal"></span
+                ><span
+                  id="taxRulerMarker"
+                  class="tax-ruler-marker"
+                  aria-hidden="true"
+                ></span>
+              </div>
+              <div class="tax-ruler-labels">
+                <span>Até R$ 5 mil<br /><b>estimativa zerada</b></span
+                ><span>Até R$ 7,35 mil<br /><b>redução parcial</b></span
+                ><span>Acima disso<br /><b>sem redução especial</b></span>
+              </div>
+              <p id="taxRulerMessage" class="tax-ruler-message"></p>
+            </div>
+            <button type="submit" class="btn-primary">Salvar alterações</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div id="folderModal" class="modal">
+      <div class="modal-content folder-modal-content">
+        <header class="modal-header">
+          <h2><i data-lucide="folder-heart"></i>Salvar em uma pasta</h2>
+          <button class="close-modal-folder" aria-label="Fechar">
+            &times;
+          </button>
+        </header>
+        <p class="folder-intro">
+          Escolha uma pasta sua para manter uma cópia automática dos dados.
+        </p>
+        <div class="folder-benefits">
+          <div>
+            <i data-lucide="save"></i>
+            <p>
+              <strong>Salvamento automático</strong
+              ><span
+                >Seus lançamentos serão atualizados na pasta escolhida.</span
+              >
+            </p>
+          </div>
+          <div>
+            <i data-lucide="rotate-ccw"></i>
+            <p>
+              <strong>Recuperação fácil</strong
+              ><span
+                >Se limpar o navegador, escolha a mesma pasta para recuperar
+                seus dados.</span
+              >
+            </p>
+          </div>
+        </div>
+        <div class="folder-modal-actions">
+          <button class="btn-secondary close-modal-folder" type="button">
+            Agora não
+          </button>
+          <button id="btnChooseFolder" class="btn-primary" type="button">
+            <i data-lucide="folder-open"></i>Escolher pasta
+          </button>
+        </div>
+      </div>
+    </div>
     <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
-    </script>
-</body>
+      // App logic for Controle de Lançamentos
 
+      class TransactionManager {
+        constructor() {
+          this.transactions =
+            JSON.parse(localStorage.getItem("transactions")) || [];
+          this.form = document.getElementById("launchForm");
+          this.typeSelect = document.getElementById("type");
+          this.costGroup = document.getElementById("costGroup");
+          this.recordsBody = document.getElementById("recordsBody");
+          this.annualSummaryBody = document.getElementById("annualSummaryBody");
+          this.annualSummaryFoot = document.getElementById("annualSummaryFoot");
+
+          // Base Salary configuration
+          this.baseSalary =
+            parseFloat(localStorage.getItem("baseSalary")) || 5500.0;
+
+          // Folder sync configuration
+          this.dirHandle = null;
+
+          this.init();
+          this.loadDirectoryHandle();
+        }
+
+        init() {
+          this.setupEventListeners();
+          this.updateCostVisibility(); // Configura o estado inicial do campo de custo
+          this.render();
+          this.setDefaultDate();
+        }
+
+        updateCostVisibility() {
+          const type = this.typeSelect.value;
+          const isOther = type === "other";
+          this.costGroup.style.display = isOther ? "none" : "flex";
+
+          if (!isOther) {
+            document.getElementById("cost").placeholder =
+              type === "sale" ? "Custo da peça" : "Gastos c/ materiais";
+          }
+        }
+
+        setupEventListeners() {
+          // Toggle cost input based on type
+          this.typeSelect.addEventListener("change", () => {
+            this.updateCostVisibility();
+          });
+
+          // Form submission
+          this.form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            this.addTransaction();
+          });
+
+          // Export button
+          document.getElementById("btnExport").addEventListener("click", () => {
+            this.exportToCSV();
+          });
+
+          // Global Backup & Restore
+          document.getElementById("btnBackup").addEventListener("click", () => {
+            this.downloadBackup();
+          });
+
+          document
+            .getElementById("btnRestore")
+            .addEventListener("click", () => {
+              document.getElementById("fileImport").click();
+            });
+
+          document
+            .getElementById("fileImport")
+            .addEventListener("change", (e) => {
+              this.importBackup(e);
+            });
+
+          // Modal Help
+          const modal = document.getElementById("taxModal");
+          const card = document.getElementById("taxCard");
+          const closeBtn = document.querySelector(".close-modal");
+
+          card.addEventListener("click", () => {
+            modal.style.display = "flex";
+          });
+
+          closeBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+          });
+
+          window.addEventListener("click", (e) => {
+            if (e.target === modal) modal.style.display = "none";
+          });
+
+          // Revenue Modal Help
+          const revModal = document.getElementById("revenueModal");
+          const revCard = document.getElementById("revenueCard");
+          const revCloseBtn = document.querySelector(".close-modal-rev");
+
+          revCard.addEventListener("click", () => {
+            revModal.style.display = "flex";
+          });
+
+          revCloseBtn.addEventListener("click", () => {
+            revModal.style.display = "none";
+          });
+
+          window.addEventListener("click", (e) => {
+            if (e.target === revModal) revModal.style.display = "none";
+          });
+
+          // Settings Modal
+          const settingsModal = document.getElementById("settingsModal");
+          const btnSettings = document.getElementById("btnSettings");
+          const closeSettings = document.querySelector(".close-modal-settings");
+          const settingsForm = document.getElementById("settingsForm");
+          const baseSalaryInput = document.getElementById("baseSalaryInput");
+
+          btnSettings.addEventListener("click", () => {
+            baseSalaryInput.value = this.baseSalary;
+            this.renderTaxRuler(this.baseSalary);
+            settingsModal.style.display = "flex";
+          });
+
+          baseSalaryInput.addEventListener("input", () => {
+            this.renderTaxRuler(parseFloat(baseSalaryInput.value) || 0);
+          });
+
+          closeSettings.addEventListener("click", () => {
+            settingsModal.style.display = "none";
+          });
+
+          settingsForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            this.baseSalary = parseFloat(baseSalaryInput.value) || 0;
+            localStorage.setItem("baseSalary", this.baseSalary);
+            this.renderTaxRuler(this.baseSalary);
+            settingsModal.style.display = "none";
+            this.render();
+            alert("Configurações salvas!");
+          });
+
+          window.addEventListener("click", (e) => {
+            if (e.target === settingsModal)
+              settingsModal.style.display = "none";
+          });
+
+          // Link Folder button
+          document
+            .getElementById("btnLinkFolder")
+            .addEventListener("click", () => {
+              document.getElementById("folderModal").style.display = "flex";
+            });
+
+          const folderModal = document.getElementById("folderModal");
+          document.querySelectorAll(".close-modal-folder").forEach((button) => {
+            button.addEventListener("click", () => {
+              folderModal.style.display = "none";
+            });
+          });
+          document
+            .getElementById("btnChooseFolder")
+            .addEventListener("click", () => {
+              folderModal.style.display = "none";
+              this.linkLocalFolder();
+            });
+          window.addEventListener("click", (e) => {
+            if (e.target === folderModal) folderModal.style.display = "none";
+          });
+        }
+
+        setDefaultDate() {
+          const today = new Date().toISOString().split("T")[0];
+          document.getElementById("date").value = today;
+        }
+
+        addTransaction() {
+          const transaction = {
+            id: Date.now(),
+            type: document.getElementById("type").value,
+            description: document.getElementById("description").value,
+            client: document.getElementById("client").value,
+            value: parseFloat(document.getElementById("value").value),
+            cost: parseFloat(document.getElementById("cost").value) || 0,
+            date: document.getElementById("date").value,
+          };
+
+          this.transactions.unshift(transaction);
+          this.save();
+          this.render();
+          this.form.reset();
+          this.setDefaultDate();
+          this.costGroup.style.display = "none";
+
+          // Re-init icons for new delete buttons
+          if (window.lucide) lucide.createIcons();
+        }
+
+        deleteTransaction(id) {
+          if (confirm("Deseja excluir este registro?")) {
+            this.transactions = this.transactions.filter((t) => t.id !== id);
+            this.save();
+            this.render();
+          }
+        }
+
+        save() {
+          localStorage.setItem(
+            "transactions",
+            JSON.stringify(this.transactions),
+          );
+          this.syncToLocalFolder();
+        }
+
+        formatCurrency(value) {
+          return value.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          });
+        }
+
+        transactionTypeLabel(type) {
+          return (
+            {
+              service: "Serviço",
+              sale: "Venda",
+              other: "Não tributável",
+            }[type] || type
+          );
+        }
+
+        csvEscape(value) {
+          return `"${String(value ?? "").replace(/"/g, '""')}"`;
+        }
+
+        generateCSV() {
+          const headers = [
+            "Data",
+            "Tipo",
+            "Descrição",
+            "Cliente",
+            "Valor",
+            "Custo",
+            "Lucro",
+          ];
+          const rows = this.transactions.map((t) => [
+            t.date,
+            this.transactionTypeLabel(t.type),
+            t.description,
+            t.client,
+            t.value,
+            t.cost,
+            t.type === "sale" ? t.value - t.cost : t.value,
+          ]);
+          return [headers, ...rows]
+            .map((row) => row.map((value) => this.csvEscape(value)).join(","))
+            .join("\n");
+        }
+
+        calculateIRPF(income) {
+          const grossIncome = Math.max(0, income);
+          const calculationBase = Math.max(0, grossIncome - 607.2);
+          let taxBeforeReduction = 0;
+
+          if (calculationBase <= 2428.8) taxBeforeReduction = 0;
+          else if (calculationBase <= 2826.65)
+            taxBeforeReduction = calculationBase * 0.075 - 182.16;
+          else if (calculationBase <= 3751.05)
+            taxBeforeReduction = calculationBase * 0.15 - 394.16;
+          else if (calculationBase <= 4664.68)
+            taxBeforeReduction = calculationBase * 0.225 - 675.49;
+          else taxBeforeReduction = calculationBase * 0.275 - 908.73;
+
+          const reduction =
+            grossIncome <= 5000
+              ? taxBeforeReduction
+              : grossIncome <= 7350
+                ? Math.max(0, 978.62 - 0.133145 * grossIncome)
+                : 0;
+          return Math.max(0, taxBeforeReduction - reduction);
+        }
+
+        renderTaxRuler(salary) {
+          const marker = document.getElementById("taxRulerMarker");
+          const income = document.getElementById("taxRulerIncome");
+          const message = document.getElementById("taxRulerMessage");
+          if (!marker || !income || !message) return;
+
+          const position = Math.min(100, (Math.max(0, salary) / 9000) * 100);
+          marker.style.left = `${position}%`;
+          income.textContent = this.formatCurrency(salary);
+          if (salary < 5000) {
+            message.textContent = `Com este salário, a sugestão tende a começar quando a renda extra do mês passar de ${this.formatCurrency(5000 - salary)}.`;
+          } else if (salary < 7350) {
+            message.textContent =
+              "Seu salário já está na faixa de redução parcial; a renda extra pode aumentar a sugestão de reserva.";
+          } else {
+            message.textContent =
+              "Seu salário já está acima da faixa de redução especial; a renda extra pode aumentar a sugestão de reserva.";
+          }
+        }
+
+        calculateMetrics() {
+          const now = new Date();
+          const currentMonth = now.getMonth();
+          const currentYear = now.getFullYear();
+
+          const currentMonthTransactions = this.transactions.filter((t) => {
+            const d = new Date(t.date + "T00:00:00");
+            return (
+              d.getMonth() === currentMonth && d.getFullYear() === currentYear
+            );
+          });
+
+          const yearlyTransactions = this.transactions.filter((t) => {
+            const d = new Date(t.date + "T00:00:00");
+            return d.getFullYear() === currentYear;
+          });
+
+          const monthlyRevenue = currentMonthTransactions.reduce(
+            (acc, t) => acc + t.value,
+            0,
+          );
+
+          // Income strictly from services (already minus their specific costs)
+          const netServices = currentMonthTransactions
+            .filter((t) => t.type === "service")
+            .reduce((acc, t) => acc + (t.value - t.cost), 0);
+
+          const monthlyServicesGross = currentMonthTransactions
+            .filter((t) => t.type === "service")
+            .reduce((acc, t) => acc + t.value, 0);
+
+          const monthlySalesGross = currentMonthTransactions
+            .filter((t) => t.type === "sale")
+            .reduce((acc, t) => acc + t.value, 0);
+
+          const yearlyRevenue = yearlyTransactions.reduce(
+            (acc, t) => acc + t.value,
+            0,
+          );
+
+          const salesProfit = currentMonthTransactions
+            .filter((t) => t.type === "sale")
+            .reduce((acc, t) => acc + (t.value - t.cost), 0);
+
+          return {
+            monthlyRevenue,
+            monthlyServices: monthlyServicesGross,
+            monthlySales: monthlySalesGross,
+            yearlyRevenue,
+            salesProfit,
+            taxableIncome: netServices + salesProfit,
+          };
+        }
+
+        render() {
+          // Update Metrics
+          const {
+            monthlyRevenue,
+            monthlyServices,
+            monthlySales,
+            yearlyRevenue,
+            salesProfit,
+            taxableIncome,
+          } = this.calculateMetrics();
+          document.getElementById("monthlyRevenue").textContent =
+            this.formatCurrency(monthlyRevenue);
+          document.getElementById("splitServices").textContent =
+            this.formatCurrency(monthlyServices);
+          document.getElementById("splitSales").textContent =
+            this.formatCurrency(monthlySales);
+
+          document.getElementById("extraMonthlyRevenue").textContent =
+            this.formatCurrency(monthlyRevenue);
+
+          // Reserva de Imposto (Cálculo Progressivo Marginal)
+          const taxWithExtra = this.calculateIRPF(
+            this.baseSalary + taxableIncome,
+          );
+          const taxOnlyBase = this.calculateIRPF(this.baseSalary);
+          const estimativeTax = Math.max(0, taxWithExtra - taxOnlyBase);
+          const consolidatedIncome = this.baseSalary + taxableIncome;
+
+          document.getElementById("taxReserve").textContent =
+            this.formatCurrency(estimativeTax);
+
+          // Update texts in UI
+          const effectiveRate =
+            taxableIncome > 0
+              ? ((estimativeTax / taxableIncome) * 100).toFixed(1)
+              : 0;
+          document.getElementById("taxExplanation").textContent =
+            estimativeTax === 0
+              ? "Renda mensal consolidada abaixo da faixa de IR"
+              : `Sugestão aproximada de ~${effectiveRate}% sobre o extra`;
+          document.getElementById("taxModalDesc").innerHTML =
+            estimativeTax === 0
+              ? `Pela estimativa de 2026, sua renda mensal consolidada de <strong>${this.formatCurrency(consolidatedIncome)}</strong> está dentro da faixa de redução que pode zerar o imposto mensal até R$ 5.000,00. Registre os valores normalmente: o ajuste anual pode considerar outras rendas e deduções.`
+              : `Esta é uma <strong>sugestão de reserva</strong> baseada na renda mensal consolidada de <strong>${this.formatCurrency(consolidatedIncome)}</strong>. Ela usa a tabela de 2026 e a redução mensal aplicável, mas não substitui a apuração oficial.`;
+
+          // "A receber" será alimentado quando o campo de situação for incluído.
+          document.getElementById("extraMonthlyRevenue").textContent =
+            this.formatCurrency(0);
+          document.getElementById("limitInfo").textContent =
+            "Nenhum pagamento pendente";
+
+          // Update Annual Summary
+          this.renderAnnualSummary();
+          this.renderCashFlowChart();
+
+          // Update Table
+          this.recordsBody.innerHTML = "";
+          this.transactions.forEach((t) => {
+            const tr = document.createElement("tr");
+            const dateObj = new Date(t.date + "T00:00:00");
+            const formattedDate = dateObj.toLocaleDateString("pt-BR");
+
+            const profit = t.type === "sale" ? t.value - t.cost : 0;
+            const extraInfo =
+              t.type === "sale"
+                ? `<small style="color: var(--success)">Lucro: ${this.formatCurrency(profit)}</small>`
+                : "-";
+
+            tr.innerHTML = `
+                <td>${formattedDate}</td>
+                <td><span class="status-badge type-${t.type}">${t.type === "service" ? "Serviço" : t.type === "sale" ? "Venda" : "Outros"}</span></td>
+                <td>${t.description}</td>
+                <td>${t.client}</td>
+                <td>${this.formatCurrency(t.value)}</td>
+                <td>${extraInfo}</td>
+                <td>
+                    <button class="btn-delete-record" onclick="manager.deleteTransaction(${t.id})" aria-label="Excluir lançamento" title="Excluir lançamento">
+                        <i data-lucide="trash-2"></i>
+                    </button>
+                </td>
+            `;
+            this.recordsBody.appendChild(tr);
+          });
+
+          if (window.lucide) lucide.createIcons();
+        }
+
+        renderCashFlowChart() {
+          const container = document.getElementById("cashFlowChart");
+          if (!container) return;
+
+          const now = new Date();
+          const points = Array.from({ length: 6 }, (_, reverseIndex) => {
+            const date = new Date(
+              now.getFullYear(),
+              now.getMonth() - (5 - reverseIndex),
+              1,
+            );
+            const monthTransactions = this.transactions.filter((t) => {
+              const transactionDate = new Date(t.date + "T00:00:00");
+              return (
+                transactionDate.getMonth() === date.getMonth() &&
+                transactionDate.getFullYear() === date.getFullYear()
+              );
+            });
+            const revenue = monthTransactions.reduce(
+              (sum, t) => sum + t.value,
+              0,
+            );
+            const costs = monthTransactions.reduce((sum, t) => sum + t.cost, 0);
+            return {
+              label: date
+                .toLocaleDateString("pt-BR", { month: "short" })
+                .replace(".", ""),
+              revenue,
+              costs,
+              profit: revenue - costs,
+            };
+          });
+
+          const maximum = Math.max(
+            100,
+            ...points.flatMap((point) => [
+              point.revenue,
+              point.costs,
+              point.profit,
+            ]),
+          );
+          const width = 720,
+            height = 250,
+            chartTop = 20,
+            chartBottom = 207,
+            chartLeft = 45,
+            chartRight = 695;
+          const baseline = chartBottom;
+          const scaleY = (value) =>
+            baseline - (value / maximum) * (baseline - chartTop);
+          const xFor = (index) =>
+            chartLeft +
+            index * ((chartRight - chartLeft) / (points.length - 1));
+          const barWidth = 24;
+          const profitPoints = points
+            .map((point, index) => `${xFor(index)},${scaleY(point.profit)}`)
+            .join(" ");
+          const grid = [0, 0.25, 0.5, 0.75, 1]
+            .map((step) => {
+              const y = scaleY(maximum * step);
+              return `<line x1="${chartLeft}" y1="${y}" x2="${chartRight}" y2="${y}" class="chart-grid-line" />`;
+            })
+            .join("");
+          const bars = points
+            .map((point, index) => {
+              const x = xFor(index);
+              const revenueHeight = baseline - scaleY(point.revenue);
+              const costHeight = baseline - scaleY(point.costs);
+              return `<rect x="${x - barWidth - 3}" y="${scaleY(point.revenue)}" width="${barWidth}" height="${revenueHeight}" rx="4" class="chart-revenue-bar" />
+                <rect x="${x + 3}" y="${scaleY(point.costs)}" width="${barWidth}" height="${costHeight}" rx="4" class="chart-cost-bar" />
+                <text x="${x}" y="235" text-anchor="middle" class="chart-label">${point.label}</text>`;
+            })
+            .join("");
+          const circles = points
+            .map(
+              (point, index) =>
+                `<circle cx="${xFor(index)}" cy="${scaleY(point.profit)}" r="4" class="chart-profit-point" />`,
+            )
+            .join("");
+          const emptyState =
+            this.transactions.length === 0
+              ? '<p class="chart-empty">Adicione lançamentos para ver sua evolução mensal.</p>'
+              : "";
+          container.innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Receita, custos e lucro dos últimos seis meses">${grid}${bars}<polyline points="${profitPoints}" class="chart-profit-line" />${circles}</svg>${emptyState}`;
+        }
+
+        renderAnnualSummary() {
+          const now = new Date();
+          const currentYear = now.getFullYear();
+          const months = [
+            "Janeiro",
+            "Fevereiro",
+            "Março",
+            "Abril",
+            "Maio",
+            "Junho",
+            "Julho",
+            "Agosto",
+            "Setembro",
+            "Outubro",
+            "Novembro",
+            "Dezembro",
+          ];
+
+          let annualTotals = { services: 0, sales: 0, revenue: 0, profit: 0 };
+          this.annualSummaryBody.innerHTML = "";
+
+          months.forEach((monthName, index) => {
+            const monthlyData = this.transactions.filter((t) => {
+              const d = new Date(t.date + "T00:00:00");
+              return d.getMonth() === index && d.getFullYear() === currentYear;
+            });
+
+            const services = monthlyData
+              .filter((t) => t.type === "service")
+              .reduce((acc, t) => acc + t.value, 0);
+            const sales = monthlyData
+              .filter((t) => t.type === "sale")
+              .reduce((acc, t) => acc + t.value, 0);
+            const revenue = services + sales;
+            const profit = monthlyData
+              .filter((t) => t.type === "sale")
+              .reduce((acc, t) => acc + (t.value - t.cost), 0);
+
+            annualTotals.services += services;
+            annualTotals.sales += sales;
+            annualTotals.revenue += revenue;
+            annualTotals.profit += profit;
+
+            if (revenue > 0) {
+              const tr = document.createElement("tr");
+              tr.innerHTML = `
+                    <td>${monthName}</td>
+                    <td>${this.formatCurrency(services)}</td>
+                    <td>${this.formatCurrency(sales)}</td>
+                    <td><strong>${this.formatCurrency(revenue)}</strong></td>
+                    <td>${this.formatCurrency(profit)}</td>
+                `;
+              this.annualSummaryBody.appendChild(tr);
+            }
+          });
+
+          this.annualSummaryFoot.innerHTML = `
+            <tr>
+                <td><strong>TOTAL ANUAL</strong></td>
+                <td>${this.formatCurrency(annualTotals.services)}</td>
+                <td>${this.formatCurrency(annualTotals.sales)}</td>
+                <td><strong>${this.formatCurrency(annualTotals.revenue)}</strong></td>
+                <td>${this.formatCurrency(annualTotals.profit)}</td>
+            </tr>
+        `;
+        }
+
+        exportToCSV() {
+          if (this.transactions.length === 0) {
+            alert("Nenhum dado para exportar");
+            return;
+          }
+
+          const csvContent =
+            "data:text/csv;charset=utf-8," +
+            encodeURIComponent(this.generateCSV());
+
+          const link = document.createElement("a");
+          link.setAttribute("href", csvContent);
+          link.setAttribute(
+            "download",
+            `controle_financeiro_${new Date().toISOString().split("T")[0]}.csv`,
+          );
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+
+        downloadBackup() {
+          const fullData = {
+            transactions: this.transactions,
+            tasks: typeof taskManager !== "undefined" ? taskManager.tasks : [],
+            baseSalary: this.baseSalary,
+          };
+          const blob = new Blob([JSON.stringify(fullData, null, 2)], {
+            type: "application/json",
+          });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `backup_mei_tech_${new Date().toISOString().split("T")[0]}.json`;
+          a.click();
+        }
+
+        validateBackupData(data) {
+          if (!data || typeof data !== "object") return false;
+
+          // Validate transactions if present
+          if (data.transactions) {
+            if (!Array.isArray(data.transactions)) return false;
+            for (const t of data.transactions) {
+              if (typeof t !== "object" || t === null) return false;
+              // Essential fields
+              if (
+                t.id === undefined ||
+                !t.type ||
+                !t.description ||
+                t.value === undefined
+              )
+                return false;
+              if (!["service", "sale", "other"].includes(t.type)) return false;
+            }
+          }
+
+          // Validate tasks if present
+          if (data.tasks) {
+            if (!Array.isArray(data.tasks)) return false;
+            for (const task of data.tasks) {
+              if (typeof task !== "object" || task === null) return false;
+              if (
+                task.id === undefined ||
+                typeof task.text !== "string" ||
+                task.completed === undefined
+              )
+                return false;
+            }
+          }
+
+          return true;
+        }
+
+        importBackup(event) {
+          const file = event.target.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            try {
+              const data = JSON.parse(e.target.result);
+
+              // Validate data structure before saving to prevent corrupting local storage
+              if (!this.validateBackupData(data)) {
+                throw new Error(
+                  "O arquivo selecionado não é um backup de lançamentos válido ou contém dados corrompidos.",
+                );
+              }
+
+              if (data.transactions) {
+                this.transactions = data.transactions;
+                this.save();
+                this.render();
+              }
+              if (data.tasks && taskManager) {
+                taskManager.tasks = data.tasks;
+                taskManager.save();
+                taskManager.render();
+              }
+              alert("Dados restaurados com sucesso!");
+              window.location.reload(); // Refresh to ensure everything is synced
+            } catch (err) {
+              alert("Erro ao importar arquivo: " + err.message);
+            }
+            // Reset input so the user can import the same file again if they want
+            event.target.value = "";
+          };
+          reader.readAsText(file);
+        }
+
+        // --- File System Access API (Option A) Helpers ---
+
+        async getIndexedDB() {
+          return new Promise((resolve, reject) => {
+            const request = indexedDB.open("RendaPlusDB", 1);
+            request.onupgradeneeded = (e) => {
+              const db = e.target.result;
+              db.createObjectStore("settings");
+            };
+            request.onsuccess = (e) => resolve(e.target.result);
+            request.onerror = (e) => reject(e.target.error);
+          });
+        }
+
+        async storeDirectoryHandle(handle) {
+          try {
+            const db = await this.getIndexedDB();
+            const tx = db.transaction("settings", "readwrite");
+            tx.objectStore("settings").put(handle, "dirHandle");
+            return new Promise((resolve) => (tx.oncomplete = resolve));
+          } catch (e) {
+            console.error("Erro ao salvar pasta no IndexedDB:", e);
+          }
+        }
+
+        async loadDirectoryHandle() {
+          try {
+            const db = await this.getIndexedDB();
+            const tx = db.transaction("settings", "readonly");
+            const handle = await new Promise((resolve) => {
+              const req = tx.objectStore("settings").get("dirHandle");
+              req.onsuccess = () => resolve(req.result);
+            });
+            if (handle) {
+              this.dirHandle = handle;
+              const permission = await this.dirHandle.queryPermission({
+                mode: "readwrite",
+              });
+              if (permission === "granted") {
+                this.updateFolderStatus(true);
+                await this.restoreFromLocalFolder();
+                await this.syncToLocalFolder();
+              } else {
+                this.updateFolderStatus(false, "needs-permission");
+              }
+            } else {
+              this.updateFolderStatus(false, "not-linked");
+            }
+          } catch (e) {
+            console.error("Erro ao carregar pasta do IndexedDB:", e);
+            this.updateFolderStatus(false, "not-linked");
+          }
+        }
+
+        async linkLocalFolder() {
+          try {
+            // If already has handle but needs permission, we request permission first
+            if (this.dirHandle) {
+              const permission = await this.dirHandle.queryPermission({
+                mode: "readwrite",
+              });
+              if (permission !== "granted") {
+                const req = await this.dirHandle.requestPermission({
+                  mode: "readwrite",
+                });
+                if (req === "granted") {
+                  this.updateFolderStatus(true);
+                  const restored = await this.restoreFromLocalFolder();
+                  await this.syncToLocalFolder();
+                  alert(
+                    restored === null
+                      ? "Sincronização de pasta reativada com sucesso!"
+                      : `${restored} lançamento(s) recuperado(s) da pasta.`,
+                  );
+                  return;
+                }
+              }
+            }
+
+            // Otherwise, show directory picker
+            const handle = await window.showDirectoryPicker({
+              mode: "readwrite",
+            });
+            this.dirHandle = handle;
+            await this.storeDirectoryHandle(handle);
+            this.updateFolderStatus(true);
+            const restored = await this.restoreFromLocalFolder();
+            await this.syncToLocalFolder();
+            alert(
+              restored === null
+                ? "Pasta vinculada. Os próximos lançamentos serão salvos automaticamente nela."
+                : `${restored} lançamento(s) recuperado(s) da pasta e sincronização ativada.`,
+            );
+          } catch (err) {
+            console.error("Falha ao vincular pasta:", err);
+            // Don't show alert if user simply cancelled the picker
+            if (err.name !== "AbortError") {
+              alert(
+                "Não foi possível acessar a pasta selecionada. Certifique-se de conceder permissões de leitura/escrita.",
+              );
+            }
+          }
+        }
+
+        updateFolderStatus(active, status = "") {
+          const btn = document.getElementById("btnLinkFolder");
+          const syncText = document.getElementById("syncText");
+
+          if (!btn || !syncText) return;
+
+          btn.className = "btn-folder"; // reset classes
+
+          if (active) {
+            btn.classList.add("active");
+            btn.title = "Sincronização Ativa na pasta /data/ (Automático)";
+            syncText.textContent = "Pasta vinculada";
+          } else if (status === "needs-permission") {
+            btn.classList.add("pending");
+            btn.title =
+              "Sincronização Pendente. Clique para conceder permissão ao navegador nesta sessão.";
+            syncText.textContent = "Ativar pasta";
+          } else {
+            btn.title =
+              "Clique para vincular a pasta '/data/' do seu projeto e salvar fisicamente seus dados.";
+            syncText.textContent = "Vincular pasta";
+          }
+        }
+
+        async restoreFromLocalFolder() {
+          try {
+            const jsonHandle =
+              await this.dirHandle.getFileHandle("lancamentos.json");
+            const savedData = JSON.parse(
+              await (await jsonHandle.getFile()).text(),
+            );
+            const backup = Array.isArray(savedData)
+              ? { transactions: savedData }
+              : savedData;
+
+            if (!this.validateBackupData(backup)) {
+              throw new Error(
+                "O arquivo lancamentos.json não possui um formato válido.",
+              );
+            }
+
+            if (backup.transactions) {
+              this.transactions = backup.transactions;
+              localStorage.setItem(
+                "transactions",
+                JSON.stringify(this.transactions),
+              );
+            }
+            if (backup.baseSalary !== undefined) {
+              this.baseSalary = Number(backup.baseSalary) || 0;
+              localStorage.setItem("baseSalary", this.baseSalary);
+            }
+            if (backup.tasks && typeof taskManager !== "undefined") {
+              taskManager.tasks = backup.tasks;
+              taskManager.save();
+              taskManager.render();
+            }
+            this.render();
+            return backup.transactions?.length || 0;
+          } catch (err) {
+            if (err.name === "NotFoundError") return null;
+            throw err;
+          }
+        }
+
+        async syncToLocalFolder() {
+          if (!this.dirHandle) return;
+
+          try {
+            // 1. Write lancamentos.json
+            const jsonHandle = await this.dirHandle.getFileHandle(
+              "lancamentos.json",
+              { create: true },
+            );
+            const jsonWritable = await jsonHandle.createWritable();
+            const folderBackup = {
+              version: 2,
+              transactions: this.transactions,
+              tasks:
+                typeof taskManager !== "undefined" ? taskManager.tasks : [],
+              baseSalary: this.baseSalary,
+            };
+            await jsonWritable.write(JSON.stringify(folderBackup, null, 2));
+            await jsonWritable.close();
+
+            // 2. Write lancamentos.csv
+            const csvHandle = await this.dirHandle.getFileHandle(
+              "lancamentos.csv",
+              {
+                create: true,
+              },
+            );
+            const csvWritable = await csvHandle.createWritable();
+
+            await csvWritable.write(this.generateCSV());
+            await csvWritable.close();
+
+            console.log(
+              "Sucesso: lancamentos.json e lancamentos.csv atualizados na pasta /data/!",
+            );
+          } catch (err) {
+            console.error("Erro na sincronização automática em disco:", err);
+            // If the write failed due to permissions, update status so user can re-trigger it
+            if (err.name === "NotAllowedError") {
+              this.updateFolderStatus(false, "needs-permission");
+            }
+          }
+        }
+      }
+
+      class TaskManager {
+        constructor() {
+          this.tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+          this.taskForm = document.getElementById("taskForm");
+          this.taskInput = document.getElementById("taskInput");
+          this.taskList = document.getElementById("taskList");
+
+          this.init();
+        }
+
+        init() {
+          this.taskForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            this.addTask();
+          });
+
+          this.render();
+        }
+
+        addTask() {
+          const text = this.taskInput.value.trim();
+          if (!text) return;
+
+          const task = {
+            id: Date.now(),
+            text: text,
+            completed: false,
+          };
+
+          this.tasks.push(task);
+          this.save();
+          this.render();
+          this.taskInput.value = "";
+        }
+
+        toggleTask(id) {
+          this.tasks = this.tasks.map((task) =>
+            task.id === id ? { ...task, completed: !task.completed } : task,
+          );
+          this.save();
+          this.render();
+        }
+
+        deleteTask(id) {
+          this.tasks = this.tasks.filter((task) => task.id !== id);
+          this.save();
+          this.render();
+        }
+
+        save() {
+          localStorage.setItem("tasks", JSON.stringify(this.tasks));
+          if (typeof manager !== "undefined" && manager.dirHandle) {
+            manager.syncToLocalFolder();
+          }
+        }
+
+        render() {
+          this.taskList.innerHTML = "";
+          this.tasks.forEach((task) => {
+            const li = document.createElement("li");
+            li.className = `task-item ${task.completed ? "completed" : ""}`;
+            li.innerHTML = `
+                <div class="task-content" onclick="taskManager.toggleTask(${task.id})">
+                    <div class="task-checkbox">
+                        <i data-lucide="check" style="width: 14px; height: 14px;"></i>
+                    </div>
+                    <span class="task-text">${task.text}</span>
+                </div>
+                <button class="btn-delete-task" onclick="taskManager.deleteTask(${task.id})">
+                    <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+                </button>
+            `;
+            this.taskList.appendChild(li);
+          });
+
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+
+      // Global instances
+      const manager = new TransactionManager();
+      const taskManager = new TaskManager();
+    </script>
+    <script>
+      if (window.lucide) lucide.createIcons();
+    </script>
+  </body>
 </html>

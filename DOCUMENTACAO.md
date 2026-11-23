@@ -1,59 +1,57 @@
-# Documentação Completa: Controle de Renda Extra
+# Documentação do Renda+
 
-## 1. Visão Geral
-O **Controle de Renda Extra** é um painel financeiro inteligente desenvolvido para profissionais que possuem uma renda fixa e realizam serviços de TI ou revenda de equipamentos de forma complementar. O sistema foi personalizado para o perfil **CPF (não MEI)**, com foco no monitoramento do Carnê-Leão e na preparação para a declaração anual de IRPF (Imposto de Renda Pessoa Física).
+## Visão geral
 
-## 2. Arquitetura Técnica
-A aplicação é uma **SPA (Single Page Application)** construída com tecnologias nativas ("Vanilla"), o que a torna extremamente rápida e independente de internet após o primeiro carregamento.
+O Renda+ é um aplicativo estático para organização de renda extra. Foi pensado para pessoas que prestam serviços, fazem vendas ocasionais ou querem acompanhar entradas e custos sem uma rotina financeira complexa.
 
-- **Frontend**: HTML5 Semântico e CSS3 com design *Glassmorphism* (moderno, com transparências e desfoques).
-- **Lógica**: JavaScript ES6+ orientado a objetos, garantindo um código organizado e expansível.
-- **Banco de Dados**: `localStorage` (os dados ficam guardados de forma privada no seu navegador).
-- **Ícones**: Lucide Icons para uma interface visual intuitiva.
+Não há cadastro, servidor nem envio automático de dados: o uso acontece no navegador da própria pessoa.
 
-## 3. Estrutura do Projeto
-- `index.html`: Interface principal, formulários e estrutura de dashboards.
-- `styles.css`: Estilização completa, animações e responsividade.
-- `app.js`: Cérebro do projeto, contendo as classes `TransactionManager` (finanças) e `TaskManager` (planejamento).
-- `DOCUMENTACAO.md`: Este guia técnico e fiscal.
-- `README.md`: Guia de início rápido.
+## Funcionalidades
 
-## 4. Funcionalidades de Faturamento e Impostos
+- Lançamento rápido de serviço, venda ou item não tributável.
+- Campo de custo para calcular lucro de vendas e considerar gastos informados nos serviços.
+- Dashboard com recebido no mês, valor a receber (preparado para evolução), sugestão de reserva, gráfico de fluxo de caixa e tarefas.
+- Resumo anual e histórico dos lançamentos.
+- Exportação de CSV em português.
+- Backup manual em JSON e importação de backup.
+- Vínculo opcional de uma pasta para gravação automática de JSON e CSV.
 
-### 4.1 Dashboard de Inteligência Fiscal
-- **Receita Bruta (Mês)**: Mostra o total recebido, com divisão visual entre Serviços e Vendas. Possui um popup de ajuda que explica a diferença entre lucro e "movimentação neutra" (reembolsos).
-- **Monitor de Renda Extra (Mês)**: Monitora o teto de **R$ 2.259,20**. Se você ultrapassar este valor em um único mês, o sistema te alerta para a necessidade do Carnê-Leão mensal.
-- **Reserva p/ Imposto (IRPF)**: Calcula automaticamente uma reserva de **27,5%** sobre o seu rendimento líquido (porque seu salário base de R$ 5.500 já te coloca na faixa máxima). O card é clicável e abre uma explicação detalhada sobre como e quando pagar esse imposto.
+## Como funciona a sugestão de reserva
 
-### 4.2 Resumo Consolidado Anual
-Uma tabela automática que agrupa todos os ganhos do **Ano Atual** por mês. É a ferramenta principal para a declaração anual, separando o que foi serviço do que foi venda de mercadoria.
+O aplicativo não calcula uma guia oficial nem afirma se existe imposto devido. Ele produz uma sugestão mensal de organização financeira.
 
-### 4.3 Gestão de Lançamentos
-- **Tipos de Lançamento**: 
-    - *Serviço*: Para mão de obra.
-    - *Venda*: Para revenda de produtos.
-    - *Outros (Não Tributável)*: Para empréstimos, reembolsos ou presentes (não entra no cálculo de imposto).
-- **Campo de Custo**: Disponível para Serviços e Vendas, permitindo que você abata gastos com materiais ou peças, pagando imposto apenas sobre o que sobra ( lucro real).
+O cálculo atual:
 
-## 5. Módulo de Planejamento
-Área dedicada à organização de metas futuras. Permite adicionar tarefas como estudos técnicos ou desejos de compra. Possui sistema de "checklist" onde é possível riscar itens concluídos ou excluí-los.
+1. Soma o salário bruto configurado à renda extra líquida do mês.
+2. Considera, para a renda extra, os serviços menos seus custos e o lucro das vendas.
+3. Estima o IRPF da renda consolidada e o IRPF apenas do salário.
+4. Exibe a diferença como **Reserva sugerida**.
 
-## 6. Segurança e Proteção de Dados
+Para 2026, a função aplica a dedução simplificada mensal de R$ 607,20, a tabela progressiva mensal e a redução aplicável até R$ 7.350,00 de rendimentos mensais. Até R$ 5.000,00 de renda consolidada, a redução pode zerar a estimativa mensal.
 
-### 6.1 Backup e Restauração
-Localizados no topo do sistema:
-- **Botão Backup**: Gera um arquivo `.json` com todos os seus dados. Salve este arquivo em uma pasta segura ou na nuvem.
-- **Botão Importar**: Permite carregar um arquivo de backup caso você limpe o cache do navegador ou troque de computador.
+A régua das configurações apenas mostra quando o salário mais a renda extra podem alcançar essas faixas. Ela não substitui a apuração oficial, pois o resultado pode mudar conforme origem dos recebimentos, retenções, outras rendas e deduções.
 
-### 6.2 Exportação CSV
-Gera uma planilha compatível com Excel e Google Sheets para backup externo ou envio para um contador.
+Referências oficiais: [tabelas do IRPF 2026](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas/2026) e [Carnê-Leão Web](https://www.gov.br/pt-br/servicos/apurar-carne-leao/).
 
-## 7. Guia Prático de Impostos (Resumo do Popup)
+## Dados e recuperação
 
-- **Como pagar**: Sempre via **DARF** (Documento de Arrecadação). Nunca por transferência direta.
-- **Forma de Pagamento**: PIX (QR Code) ou código de barras no app do banco.
-- **Isenção Mensal**: Se o extra do mês for menor que **R$ 2.259,20**, você não precisa pagar nada no mês; o imposto será pago apenas na Declaração de Ajuste Anual no ano seguinte.
-- **Renda vs. Empréstimo**: Dinheiro emprestado não é tributável e deve ser lançado como "Outros" no sistema.
+Por padrão, os lançamentos e a configuração salarial usam o `localStorage` do navegador. Ao vincular uma pasta, o aplicativo grava também:
 
----
-*Desenvolvido com foco em organização, tranquilidade fiscal e crescimento profissional.* 🚀
+- `lancamentos.json`, com lançamentos, tarefas e salário;
+- `lancamentos.csv`, para leitura em planilhas.
+
+Ao selecionar novamente uma pasta que já contém `lancamentos.json`, o aplicativo restaura os dados dela. O vínculo de pasta requer navegador compatível com a File System Access API; Chrome, Edge e navegadores Chromium compatíveis normalmente oferecem suporte.
+
+## Estrutura do projeto
+
+- `index.html`: versão autossuficiente, pronta para abrir no navegador ou publicar na web.
+- `styles.css`: fonte da estilização.
+- `app.js`: fonte da lógica do aplicativo.
+- `data/`: pasta vazia para dados escolhidos pelo usuário; arquivos pessoais nela não são versionados.
+- `LICENSE`: licença MIT do projeto.
+
+## Limites conhecidos
+
+- O app não substitui o Carnê-Leão Web, a declaração anual ou orientação contábil.
+- A origem do recebimento (pessoa física, pessoa jurídica ou exterior) ainda não é informada por lançamento; por isso, a sugestão deve ser usada apenas como referência geral.
+- Em GitHub Pages, os dados permanecem no navegador de cada visitante. A publicação não cria sincronização online.
