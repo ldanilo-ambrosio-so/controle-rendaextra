@@ -6,6 +6,16 @@
 
 **Renda+** é um controle simples de renda extra. Ele ajuda a registrar serviços, vendas e custos, enxergar a evolução mensal e se organizar para uma possível reserva de Imposto de Renda — sem tentar substituir o Carnê-Leão Web ou um contador.
 
+## Telas do aplicativo
+
+| Visão geral | Configuração da referência de IR |
+| --- | --- |
+| ![Dashboard com fluxo de caixa e tarefas](docs/preview.png) | ![Configurações com régua mensal de referência](docs/screenshots/configuracoes-regua-ir.png) |
+
+| Reserva sugerida | Pasta e recuperação de dados |
+| --- | --- |
+| ![Explicação da reserva sugerida](docs/screenshots/reserva-sugerida.png) | ![Vínculo de pasta para salvamento local](docs/screenshots/pasta-e-privacidade.png) |
+
 ## O que o app faz
 
 - Registra serviços, vendas e lançamentos não tributáveis em poucos segundos.
