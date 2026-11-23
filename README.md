@@ -43,7 +43,7 @@ Abra [index.html](index.html) no navegador. Ele é autossuficiente: a interface 
 
 ### Pela web
 
-Este repositório pode ser publicado no GitHub Pages. Após a publicação, basta abrir o endereço do projeto no navegador. Os dados continuam privados no navegador de cada pessoa; não há conta, servidor ou banco de dados remoto.
+Este repositório pode ser publicado no GitHub Pages. Após a publicação, basta abrir o endereço do projeto no navegador. Mesmo usando a versão online, os dados continuam privados no navegador de cada pessoa e, se vinculada, na pasta que ela escolheu. Não há conta, servidor, banco de dados remoto ou compartilhamento automático na nuvem.
 
 > O recurso **Vincular pasta** depende da File System Access API. Ele funciona em navegadores baseados em Chromium, como Chrome, Edge e versões compatíveis do Brave. Quando não houver suporte, os botões de backup e importação continuam disponíveis.
 
