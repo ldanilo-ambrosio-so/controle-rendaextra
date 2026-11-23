@@ -114,6 +114,39 @@
         width: 14px;
         flex: none;
       }
+      .developer-credit {
+        padding: 4px 12px 0;
+        color: var(--muted);
+        font-size: 0.68rem;
+      }
+      .developer-credit span,
+      .developer-credit strong {
+        display: block;
+      }
+      .developer-credit strong {
+        color: var(--ink);
+        font-size: 0.75rem;
+      }
+      .developer-links {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+      }
+      .developer-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--green);
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .developer-links a:hover {
+        text-decoration: underline;
+      }
+      .developer-links i {
+        width: 12px;
+        height: 12px;
+      }
       .main-content {
         width: 100%;
         max-width: 1480px;
@@ -901,6 +934,9 @@
         .sidebar-footer p {
           display: none;
         }
+        .developer-credit {
+          display: none;
+        }
         .main-content {
           padding: 28px 25px;
         }
@@ -1030,6 +1066,24 @@
           <p>
             <i data-lucide="lock-keyhole"></i>Seus dados ficam neste navegador.
           </p>
+          <div class="developer-credit">
+            <span>Desenvolvido por</span>
+            <strong>Lucio Danilo</strong>
+            <div class="developer-links">
+              <a
+                href="https://www.linkedin.com/in/lucio-danilo-490a72110/"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i data-lucide="linkedin"></i>LinkedIn</a
+              >
+              <a
+                href="https://github.com/ldanilo-ambrosio-so"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i data-lucide="github"></i>GitHub</a
+              >
+            </div>
+          </div>
         </div>
       </aside>
       <main class="main-content" id="inicio">
